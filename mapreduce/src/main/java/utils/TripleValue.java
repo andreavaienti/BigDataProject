@@ -1,13 +1,10 @@
-package query1.utils;
+package utils;
 
 import org.apache.hadoop.io.WritableComparable;
-import org.apache.hadoop.io.WritableComparator;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-import java.util.Iterator;
 
 public class TripleValue implements WritableComparable<TripleValue> {
 

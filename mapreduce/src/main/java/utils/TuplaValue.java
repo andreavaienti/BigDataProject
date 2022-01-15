@@ -1,4 +1,4 @@
-package query1.utils;
+package utils;
 
 import org.apache.hadoop.io.*;
 

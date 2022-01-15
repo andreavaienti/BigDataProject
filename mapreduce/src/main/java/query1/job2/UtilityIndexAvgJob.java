@@ -5,8 +5,8 @@ import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
-import query1.utils.TripleValue;
-import query1.utils.TuplaValue;
+import utils.TripleValue;
+import utils.TuplaValue;
 
 import java.io.IOException;
 

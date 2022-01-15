@@ -1,11 +1,10 @@
 package query1.job3;
 
 import org.apache.hadoop.io.DoubleWritable;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
-import query1.utils.TuplaValue;
+import utils.TuplaValue;
 
 import java.io.IOException;
 
