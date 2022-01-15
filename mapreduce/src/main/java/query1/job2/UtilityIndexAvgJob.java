@@ -72,6 +72,7 @@ public class UtilityIndexAvgJob {
                 sumCount += val.getLeft().get();
             }
 
+            //OUTPUT: ((brand, revID), utilityIndex)
             context.write(key, new DoubleWritable(sumVote/sumCount));
 
         }
