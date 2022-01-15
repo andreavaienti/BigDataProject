@@ -1,28 +1,27 @@
 package query1.utils;
 
-import org.apache.hadoop.io.WritableComparable;
-import org.apache.hadoop.io.WritableComparator;
-import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.*;
+
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-public class TuplaValue implements WritableComparable<TuplaValue> {
+public class TuplaValue<L extends WritableComparable, R extends WritableComparable>
+        implements WritableComparable<TuplaValue<L, R>> {
 
-    private Text left;
-    private Text right;
+    private L left;
+    private R right;
 
-    public TuplaValue(Text left, Text right) {
+    public TuplaValue(L left, R right) {
         this.left = left;
         this.right = right;
     }
 
-    public Text getLeft() {
+    public L getLeft() {
         return this.left;
     }
 
-    public Text getRight() {
+    public R getRight() {
         return this.right;
     }
 
@@ -39,7 +38,9 @@ public class TuplaValue implements WritableComparable<TuplaValue> {
     }
 
     @Override
-    public int compareTo(TuplaValue o) {
+    public int compareTo(TuplaValue<L, R> o) {
+        if(this.left.compareTo(o.getLeft()) == 0)
+            return this.right.compareTo(o.getRight());
         return this.left.compareTo(o.getLeft());
     }
 }

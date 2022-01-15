@@ -119,7 +119,7 @@ public class MetaAndCoreJoinJob {
                     brand = val.getRight();
             }
 
-            //(prodID, (brand, revID, vote)
+            //OUTPUT: (prodID, (brand, revID, vote)
             for(StringTuple coreItem : coreDatasetRecords) {
                 context.write(key, new TripleValue(brand, coreItem.revID, coreItem.vote));
             }
