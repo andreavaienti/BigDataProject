@@ -1,0 +1,17 @@
+WordCount.java
+ WordCount
+ WordCount$IntSumReducer
+ WordCount$TokenizerMapper
+JoinJob.java
+ join.JoinJob
+ join.JoinJob$FirstMapper
+ join.JoinJob$JobReducer
+ join.JoinJob$SecondMapper
+Prova.java
+ Prova
+MultipleJobs.java
+ multipleJobs.MultipleJobs
+ multipleJobs.MultipleJobs$FirstMapper
+ multipleJobs.MultipleJobs$FirstReducer
+ multipleJobs.MultipleJobs$SecondMapper
+ multipleJobs.MultipleJobs$SecondReducer

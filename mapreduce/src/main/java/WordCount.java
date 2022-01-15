@@ -11,6 +11,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.json.JSONObject;
 
 public class WordCount {
 
@@ -49,6 +50,8 @@ public class WordCount {
 	public static void main(String[] args) throws Exception {
 		Configuration conf = new Configuration();
 		Job job = Job.getInstance(conf, "word count");
+
+		JSONObject json = new JSONObject();
 
 		Path inputPath = new Path(args[0]), outputPath = new Path(args[1]);
 		FileSystem fs = FileSystem.get(new Configuration());

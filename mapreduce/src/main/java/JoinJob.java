@@ -29,7 +29,7 @@ public class JoinJob {
  		    
 			// Mapper logic
 			
-			// Output should be formatted as (joinKey, value), 
+			// Output should be formatted as (joinKey, value), (prodID, "core")
 			// where the value also specifies which is the source. It can be either:
 			// - a string formatted like "source-value" to be parsed by the reducer
 			// - an object of a custom class that contains both information
@@ -49,7 +49,7 @@ public class JoinJob {
  		    
 			// Mapper logic
 			
-			// Output should be formatted as (joinKey, value), 
+			// Output should be formatted as (joinKey, value), (prodID, "meta")
 			// where the value also specifies which is the source. It can be either:
 			// - a string formatted like "source-value" to be parsed by the reducer
 			// - an object of a custom class that contains both information
