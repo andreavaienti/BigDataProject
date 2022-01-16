@@ -28,6 +28,8 @@ public class QueryMR {
 		final Path fiveCoreDatasetPath = new Path(inputPath + File.separator + "5-core-sample.csv");
 		final Path metadataDatasetPath = new Path(inputPath + File.separator + "meta-sample.csv");
 		final Path job1Result = new Path(outputPath + File.separator + "job1Result");
+		final Path job2Result = new Path(outputPath + File.separator + "job2Result");
+		final Path job3Result = new Path(outputPath + File.separator + "job3Result");
 
 		final FileSystem fs = FileSystem.get(new Configuration());
 		if (fs.exists(outputPath)) {
@@ -38,7 +40,7 @@ public class QueryMR {
 		 * First job
 		 */
 		final Configuration conf1 = new Configuration();
-		final Job job1 = Job.getInstance(conf1, "Compute most upvoted answer for each question");
+		final Job job1 = Job.getInstance(conf1, "Meta and Core Dataset Join");
 		job1.setJarByClass(QueryMR.class);
 
 		if (args.length > 2) {
@@ -62,6 +64,63 @@ public class QueryMR {
 		FileOutputFormat.setOutputPath(job1, job1Result);
 
 		if (!job1.waitForCompletion(true)) {
+			System.exit(1);
+		}
+
+		/*
+		 * Second job
+		 */
+		final Configuration conf2 = new Configuration();
+		final Job job2 = Job.getInstance(conf2, "Utility Index Average Job");
+		job2.setJarByClass(QueryMR.class);
+
+		if (args.length > 2) {
+			final int numReduceTasksJob2 = Integer.parseInt(args[3]);
+			if (numReduceTasksJob2 >= 0) {
+				job2.setNumReduceTasks(numReduceTasksJob2);
+			}
+		} else {
+			job2.setNumReduceTasks(1);
+		}
+
+		job2.setMapperClass(UtilityIndexAvgJob.UtilityIndexAvgMapper.class);
+		job2.setCombinerClass(UtilityIndexAvgJob.UtilityIndexAvgCombiner.class);
+		job2.setReducerClass(UtilityIndexAvgJob.UtilityIndexAvgReducer.class);
+		job2.setOutputKeyClass(Text.class);
+		job2.setOutputValueClass(Text.class);
+
+		FileInputFormat.addInputPath(job2, job1Result);
+		FileOutputFormat.setOutputPath(job2, job2Result);
+
+		if (!job2.waitForCompletion(true)) {
+			System.exit(1);
+		}
+
+		/*
+		 * Third job
+		 */
+		final Configuration conf3 = new Configuration();
+		final Job job3 = Job.getInstance(conf3, "Utility Index Sort Job");
+		job3.setJarByClass(QueryMR.class);
+
+		if (args.length > 2) {
+			final int numReduceTasksJob2 = Integer.parseInt(args[4]);
+			if (numReduceTasksJob3 >= 0) {
+				job3.setNumReduceTasks(numReduceTasksJob3);
+			}
+		} else {
+			job3.setNumReduceTasks(1);
+		}
+
+		job3.setMapperClass(UtilityIndexSortJob.UtilityIndexSortMapper.class);
+		job3.setReducerClass(UtilityIndexSortJob.UtilityIndexSortReducer.class);
+		job3.setOutputKeyClass(Text.class);
+		job3.setOutputValueClass(Text.class);
+
+		FileInputFormat.addInputPath(job3, job2Result);
+		FileOutputFormat.setOutputPath(job3, job3Result);
+
+		if (!job3.waitForCompletion(true)) {
 			System.exit(1);
 		}
 
