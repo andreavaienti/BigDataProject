@@ -1,33 +1,28 @@
-package query2.job2;
+package query2.job4;
 
 import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
-import utils.TripleValue;
 import utils.TuplaValue;
 
 import java.io.IOException;
 
-public class ProductOverallAvgJob {
+public class BrandOverallAvgAndSortJob {
 
     /**
-     * Mapper for job2
+     * Mapper for job4
      */
-    public static class ProductOverallAvgMapper extends Mapper<
-            IntWritable, Text,
+    public static class BrandOverallAvgMapper extends Mapper<
+            Text, TuplaValue<Text, Text>,
             Text, TuplaValue<IntWritable, IntWritable>> {
 
-        public void map(IntWritable key, Text value, Context context) throws IOException, InterruptedException {
+        public void map(Text key, TuplaValue<Text, Text> value, Context context) throws IOException, InterruptedException {
 
-            final String[] coreAttributes = value.toString().split(",", -1);
-            final String prodID = coreAttributes[2].trim();
-            final String overall = coreAttributes[0].trim();
-
-            //INPUT: leggo dataset
-            //OUTPUT: ((prodID), overall, 1)
-            context.write(new Text(prodID), new TuplaValue<IntWritable, IntWritable>(new IntWritable(Integer.parseInt(overall)), new IntWritable(1)));
+            //INPUT: (prodID, (brand, overall))
+            //OUTPUT: (brand, overall, 1)
+            context.write(value.getLeft(), new TuplaValue<IntWritable, IntWritable>(new IntWritable(Integer.parseInt(value.getRight().toString())), new IntWritable(1)));
 
         }
     }
@@ -35,7 +30,7 @@ public class ProductOverallAvgJob {
     /**
      * Combiner
      */
-    public static class ProductOverallAvgCombiner extends Reducer<
+    public static class BrandOverallAvgCombiner extends Reducer<
             Text, TuplaValue<IntWritable, IntWritable>,
             Text, TuplaValue<IntWritable, IntWritable>> {
 
@@ -57,9 +52,9 @@ public class ProductOverallAvgJob {
     /**
      * Reducer
      */
-    public static class ProductOverallAvgReducer extends Reducer<
+    public static class BrandOverallAvgReducer extends Reducer<
             Text, TuplaValue<IntWritable, IntWritable>,
-            Text, DoubleWritable> {
+            DoubleWritable, Text> {
 
         public void reduce(Text key, Iterable<TuplaValue<IntWritable, IntWritable>> values, Context context) throws IOException, InterruptedException {
 
@@ -71,7 +66,7 @@ public class ProductOverallAvgJob {
             }
 
             //OUTPUT: ((prodID), overall)
-            context.write(key, new DoubleWritable(sumTotalOverall/sumTotalItem));
+            context.write(new DoubleWritable(sumTotalOverall/sumTotalItem), key);
 
         }
 
