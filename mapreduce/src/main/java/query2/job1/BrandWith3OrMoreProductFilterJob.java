@@ -17,7 +17,7 @@ public class BrandWith3OrMoreProductFilterJob {
      */
     public static class Brand3ProductFilterMapper extends Mapper<
             IntWritable, Text,
-            Text, Text> {
+            Text, TuplaValue<Text, IntWritable>> {
 
         public void map(IntWritable key, Text value, Context context) throws IOException, InterruptedException {
 
@@ -26,8 +26,8 @@ public class BrandWith3OrMoreProductFilterJob {
             final String prodID = metaAttributes[1].trim();
 
             //INPUT: Leggo file
-            //OUTPUT: ((brand), prodID)
-            context.write(new Text(brand), new Text(prodID));
+            //OUTPUT: ((brand), prodID, 1)
+            context.write(new Text(brand), new TuplaValue<Text, IntWritable>(new Text(prodID), new IntWritable(1)));
 
         }
 
@@ -37,14 +37,24 @@ public class BrandWith3OrMoreProductFilterJob {
      * Reducer
      */
     public static class UtilityIndexSortReducer extends Reducer<
-            Text, Text,
+            Text, TuplaValue<Text, IntWritable>,
             Text, Text> {
 
-        public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+        public void reduce(Text key, Iterable<TuplaValue<Text, IntWritable>> values, Context context) throws IOException, InterruptedException {
 
+            //INPUT: ((brand), prodID, 1)
+            int brandProductCounter = 0;
 
-            //
-            //values.
+            for(TuplaValue<Text, IntWritable> val: values){
+                brandProductCounter += val.getRight().get();
+            }
+
+            //OUTPUT: ((brand), prodID)
+            if(brandProductCounter >= 3){
+                for(TuplaValue<Text, IntWritable> val: values){
+                    context.write(key, val.getLeft());
+                }
+            }
 
         }
 

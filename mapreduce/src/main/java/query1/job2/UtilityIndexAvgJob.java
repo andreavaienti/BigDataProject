@@ -47,7 +47,7 @@ public class UtilityIndexAvgJob {
 
             for(TuplaValue<IntWritable, IntWritable> val: values){
                 sumLocalVote += val.getLeft().get();
-                sumLocalCount += val.getLeft().get();
+                sumLocalCount += val.getRight().get();
             }
 
             context.write(key, new TuplaValue<IntWritable, IntWritable>(new IntWritable(sumLocalVote), new IntWritable(sumLocalCount)));
