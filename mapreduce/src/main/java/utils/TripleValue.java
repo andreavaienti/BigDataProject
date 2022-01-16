@@ -55,6 +55,12 @@ public class TripleValue implements WritableComparable<TripleValue> {
 
     @Override
     public int compareTo(TripleValue o) {
+        if(this.left.compareTo(o.getLeft() == 0){
+            if(this.center.compareTo(o.getCenter()) == 0){
+                return this.right.compareTo(o.getRight());
+            }
+            return this.center.compareTo(o.getCenter());
+        }
         return this.left.compareTo(o.getLeft());
     }
 
