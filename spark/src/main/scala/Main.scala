@@ -76,5 +76,5 @@ object Exercise extends App {
       .saveAsTextFile(outputPathQuery2)
 
   }
-  
+
 }

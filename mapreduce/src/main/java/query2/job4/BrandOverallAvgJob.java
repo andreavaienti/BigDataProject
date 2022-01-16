@@ -9,7 +9,7 @@ import utils.TuplaValue;
 
 import java.io.IOException;
 
-public class BrandOverallAvgAndSortJob {
+public class BrandOverallAvgJob {
 
     /**
      * Mapper for job4
@@ -54,7 +54,7 @@ public class BrandOverallAvgAndSortJob {
      */
     public static class BrandOverallAvgReducer extends Reducer<
             Text, TuplaValue<IntWritable, IntWritable>,
-            DoubleWritable, Text> {
+            Text, DoubleWritable> {
 
         public void reduce(Text key, Iterable<TuplaValue<IntWritable, IntWritable>> values, Context context) throws IOException, InterruptedException {
 
@@ -66,7 +66,7 @@ public class BrandOverallAvgAndSortJob {
             }
 
             //OUTPUT: ((prodID), overall)
-            context.write(new DoubleWritable(sumTotalOverall/sumTotalItem), key);
+            context.write(key,new DoubleWritable(sumTotalOverall/sumTotalItem));
 
         }
 
