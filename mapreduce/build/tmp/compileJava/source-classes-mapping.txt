@@ -1,17 +1,59 @@
+query1/job3/UtilityIndexSortJob.java
+ query1.job3.UtilityIndexSortJob
+ query1.job3.UtilityIndexSortJob$UtilityIndexSortMapper
+ query1.job3.UtilityIndexSortJob$UtilityIndexSortReducer
 WordCount.java
  WordCount
  WordCount$IntSumReducer
  WordCount$TokenizerMapper
-JoinJob.java
- join.JoinJob
- join.JoinJob$FirstMapper
- join.JoinJob$JobReducer
- join.JoinJob$SecondMapper
-Prova.java
- Prova
+query1/job2/UtilityIndexAvgJob.java
+ query1.job2.UtilityIndexAvgJob
+ query1.job2.UtilityIndexAvgJob$UtilityIndexAvgCombiner
+ query1.job2.UtilityIndexAvgJob$UtilityIndexAvgMapper
+ query1.job2.UtilityIndexAvgJob$UtilityIndexAvgReducer
+utils/TuplaValue.java
+ utils.TuplaValue
 MultipleJobs.java
  multipleJobs.MultipleJobs
  multipleJobs.MultipleJobs$FirstMapper
  multipleJobs.MultipleJobs$FirstReducer
  multipleJobs.MultipleJobs$SecondMapper
  multipleJobs.MultipleJobs$SecondReducer
+query2/job4/BrandOverallAvgJob.java
+ query2.job4.BrandOverallAvgJob
+ query2.job4.BrandOverallAvgJob$BrandOverallAvgCombiner
+ query2.job4.BrandOverallAvgJob$BrandOverallAvgMapper
+ query2.job4.BrandOverallAvgJob$BrandOverallAvgReducer
+utils/TripleValue.java
+ utils.TripleValue
+query2/job5/BrandOverallFindMaxJob.java
+ query2.job5.BrandOverallFindMaxJob
+ query2.job5.BrandOverallFindMaxJob$BrandOverallMaxCombiner
+ query2.job5.BrandOverallFindMaxJob$BrandOverallMaxMapper
+ query2.job5.BrandOverallFindMaxJob$BrandOverallMaxReducer
+query2/job3/BrandAndProductOverallJoinJob.java
+ query2.job3.BrandAndProductOverallJoinJob
+ query2.job3.BrandAndProductOverallJoinJob$BrandMapper
+ query2.job3.BrandAndProductOverallJoinJob$JobReducer
+ query2.job3.BrandAndProductOverallJoinJob$ProductOverallMapper
+JoinJob.java
+ join.JoinJob
+ join.JoinJob$FirstMapper
+ join.JoinJob$JobReducer
+ join.JoinJob$SecondMapper
+query1/job1/MetaAndCoreJoinJob.java
+ query1.job1.MetaAndCoreJoinJob
+ query1.job1.MetaAndCoreJoinJob$CoreMapper
+ query1.job1.MetaAndCoreJoinJob$JobReducer
+ query1.job1.MetaAndCoreJoinJob$MetaMapper
+query2/job1/BrandWith3OrMoreProductFilterJob.java
+ query2.job1.BrandWith3OrMoreProductFilterJob
+ query2.job1.BrandWith3OrMoreProductFilterJob$Brand3ProductFilterMapper
+ query2.job1.BrandWith3OrMoreProductFilterJob$UtilityIndexSortReducer
+query2/job2/ProductOverallAvgJob.java
+ query2.job2.ProductOverallAvgJob
+ query2.job2.ProductOverallAvgJob$ProductOverallAvgCombiner
+ query2.job2.ProductOverallAvgJob$ProductOverallAvgMapper
+ query2.job2.ProductOverallAvgJob$ProductOverallAvgReducer
+query1/QueryMR.java
+ query1.QueryMR

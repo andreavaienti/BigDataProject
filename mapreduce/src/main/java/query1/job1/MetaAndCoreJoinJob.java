@@ -1,10 +1,15 @@
 package query1.job1;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.hadoop.io.ArrayWritable;
 import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import utils.TripleValue;
+import utils.TuplaValue;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,14 +20,16 @@ import java.util.List;
  */
 public class MetaAndCoreJoinJob {
 
+    public static final Log log = LogFactory.getLog(MetaAndCoreJoinJob.class);
+
     /**
      * Mapper for META dataset
      */
-    public static class MetaMapper extends Mapper<IntWritable, Text, Text, TripleValue> {
+    public static class MetaMapper extends Mapper<
+            LongWritable, Text,
+            Text, TripleValue> {
 
-        private Text prodIDText = new Text(), sourceText = new Text(), brandText = new Text();
-
-        public void map(IntWritable key, Text value, Context context) throws IOException, InterruptedException {
+        public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 
             // Mapper logic
 
@@ -31,13 +38,18 @@ public class MetaAndCoreJoinJob {
             // - a string formatted like "source-value" to be parsed by the reducer
             // - an object of a custom class that contains both information
             final String[] metaAttributes = value.toString().split(",", -1);
+            //log.info("STAMPA METAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            System.out.println("STAMPA METAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            System.out.println(metaAttributes.toString());
+            System.out.println("VALUEEEEE");
+            System.out.println(value.toString());
             final String brand = metaAttributes[0].trim();
             final String prodID = metaAttributes[1].trim();
-            prodIDText.set(prodID);
-            sourceText.set("meta");
-            brandText.set(brand);
+            System.out.println("PRODID");
+            System.out.println(prodID);
 
-            context.write(prodIDText, new TripleValue(sourceText, brandText));
+            //OUTPUT: ((prodID), ("meta", brand))
+            context.write(new Text(prodID), new TripleValue(new Text("meta"), new Text(brand))); //METTERE TUPLA
 
         }
 
@@ -46,11 +58,11 @@ public class MetaAndCoreJoinJob {
     /**
      * Mapper for 5-CORE dataset
      */
-    public static class CoreMapper extends Mapper<IntWritable, Text, Text, TripleValue>{
+    public static class CoreMapper extends Mapper<
+            LongWritable, Text,
+            Text, TripleValue>{
 
-        private Text prodIDText = new Text(), sourceText = new Text(), voteText = new Text(), revIDText = new Text();
-
-        public void map(IntWritable key, Text value, Context context) throws IOException, InterruptedException {
+        public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 
             // Mapper logic
 
@@ -59,15 +71,17 @@ public class MetaAndCoreJoinJob {
             // - a string formatted like "source-value" to be parsed by the reducer
             // - an object of a custom class that contains both information
             final String[] coreAttributes = value.toString().split(",", -1);
+            System.out.println("STAMPA COREEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+            System.out.println(coreAttributes.toString());
+            System.out.println("VALUEEEEE");
+            System.out.println(value.toString());
             final String revID = coreAttributes[1].trim();
             final String prodID = coreAttributes[2].trim();
             final String vote = coreAttributes[4].trim();
-            prodIDText.set(prodID);
-            sourceText.set("core");
-            voteText.set(vote);
-            revIDText.set(revID);
+            System.out.println("PRODID");
+            System.out.println(prodID);
 
-            context.write(prodIDText, new TripleValue(sourceText, revIDText, voteText));
+            context.write(new Text(prodID), new TripleValue(new Text("core"), new Text(revID), new Text(vote)));
 
         }
 
@@ -76,44 +90,31 @@ public class MetaAndCoreJoinJob {
     /**
      * Reducer
      */
-    public static class JobReducer extends Reducer<Text,TripleValue,Text,TripleValue> {
-
-        private class StringTuple {
-
-            Text revID;
-            Text vote;
-
-            StringTuple(Text revID, Text vote){
-                this.revID = revID;
-                this.vote = vote;
-            }
-
-            public Text getRevID() {
-                return revID;
-            }
-
-            public Text getVote() {
-                return vote;
-            }
-        }
+    public static class JobReducer extends Reducer<
+            Text,TripleValue,
+            Text,TripleValue> {
 
         public void reduce(Text key, Iterable<TripleValue> values, Context context) throws IOException, InterruptedException {
 
-            Text brand = null;
-            List<StringTuple> coreDatasetRecords = new ArrayList<StringTuple>(); //(revID, vote)
+            String brand = "";
+            List<String> coreDatasetRecords = new ArrayList<String>();
+            System.out.println("REDUCERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
 
             //(prodID, (source, brand) SOLO UN'OCCORRENZA
             //(prodID, (source, revID, vote) PIU DI UNA
             for(TripleValue val : values) {
-                if(val.getLeft().toString() == "core")
-                    coreDatasetRecords.add(new StringTuple(val.getCenter(), val.getRight()));
-                else
-                    brand = val.getRight();
+                if(val.getLeft().toString().equals("core")) {
+                    coreDatasetRecords.add(val.getCenter().toString() + "," + val.getRight().toString());
+                } else {
+                    brand = val.getRight().toString();
+                }
             }
 
             //OUTPUT: (prodID, (brand, revID, vote)
-            for(StringTuple coreItem : coreDatasetRecords) {
-                context.write(key, new TripleValue(brand, coreItem.revID, coreItem.vote));
+            for(String coreItem : coreDatasetRecords) {
+                String[] s= coreItem.split(",");
+                System.out.println("K: " + key.toString() + "  , V: " + brand + ", " + s[0] + ", " + s[1]);
+                context.write(key, new TripleValue(new Text(brand), new Text(s[0]), new Text(s[1])));
             }
         }
 

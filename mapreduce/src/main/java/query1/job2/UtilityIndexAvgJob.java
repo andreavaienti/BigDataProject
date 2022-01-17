@@ -2,6 +2,7 @@ package query1.job2;
 
 import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
@@ -18,18 +19,21 @@ public class UtilityIndexAvgJob {
     /**
      * Mapper for job2
      */
-    public static class UtilityIndexAvgMapper extends Mapper<Text, TripleValue, TuplaValue<Text, Text>, TuplaValue<IntWritable, IntWritable>>{
+    public static class UtilityIndexAvgMapper extends Mapper<
+            LongWritable, Text,
+            TuplaValue<Text, Text>, TuplaValue<IntWritable, IntWritable>> {
 
-        private IntWritable voteInt = new IntWritable();
-        private IntWritable one = new IntWritable(1);
-
-        public void map(Text key, TripleValue value, Context context) throws IOException, InterruptedException {
+        public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 
             //INPUT: (prodID, (brand, revID, vote)
-            voteInt.set(Integer.parseInt(value.getRight().toString()));
+            final String[] metaAttributes = value.toString().split(",", -1);
+            final String prodID = metaAttributes[0].trim();
+            final String brand = metaAttributes[1].trim();
+            final String revID = metaAttributes[0].trim();
+            final String vote = metaAttributes[1].trim();
 
             //OUTPUT: ((brand, revID), (vote, 1))
-            context.write(new TuplaValue<Text, Text>(value.getLeft(), value.getCenter()), new TuplaValue<IntWritable, IntWritable>(voteInt, one));
+            context.write(new TuplaValue<Text, Text>(new Text(brand), new Text(revID)), new TuplaValue<IntWritable, IntWritable>(new IntWritable(Integer.parseInt(vote)), new IntWritable(1)));
 
         }
     }
@@ -72,6 +76,8 @@ public class UtilityIndexAvgJob {
                 sumCount += val.getLeft().get();
             }
 
+            System.out.println("REDUCER22222222222222222222222222222222222222222222222");
+            System.out.println("K: " + key.toString() + "  , V: " + sumVote/sumCount);
             //OUTPUT: ((brand, revID), utilityIndex)
             context.write(key, new DoubleWritable(sumVote/sumCount));
 
