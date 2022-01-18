@@ -2,14 +2,11 @@ package query1.job1;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.hadoop.io.ArrayWritable;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import utils.TripleValue;
-import utils.TuplaValue;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,8 +16,6 @@ import java.util.List;
  * MapReduce job to join Meta.csv and 5-Core.csv.
  */
 public class MetaAndCoreJoinJob {
-
-    public static final Log log = LogFactory.getLog(MetaAndCoreJoinJob.class);
 
     /**
      * Mapper for META dataset
@@ -32,24 +27,18 @@ public class MetaAndCoreJoinJob {
         public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 
             // Mapper logic
-
             // Output should be formatted as (joinKey, value), (prodID, "meta")
             // where the value also specifies which is the source. It can be either:
             // - a string formatted like "source-value" to be parsed by the reducer
             // - an object of a custom class that contains both information
+
+            //File Format: brand, prodID
             final String[] metaAttributes = value.toString().split(",", -1);
-            //log.info("STAMPA METAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-            System.out.println("STAMPA METAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-            System.out.println(metaAttributes.toString());
-            System.out.println("VALUEEEEE");
-            System.out.println(value.toString());
             final String brand = metaAttributes[0].trim();
             final String prodID = metaAttributes[1].trim();
-            System.out.println("PRODID");
-            System.out.println(prodID);
 
-            //OUTPUT: ((prodID), ("meta", brand))
-            context.write(new Text(prodID), new TripleValue(new Text("meta"), new Text(brand))); //METTERE TUPLA
+            //OUTPUT: (prodID, ("meta", brand))
+            context.write(new Text(prodID), new TripleValue(new Text("meta"), new Text(brand)));
 
         }
 
@@ -64,23 +53,13 @@ public class MetaAndCoreJoinJob {
 
         public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 
-            // Mapper logic
-
-            // Output should be formatted as (joinKey, value), (prodID, "core")
-            // where the value also specifies which is the source. It can be either:
-            // - a string formatted like "source-value" to be parsed by the reducer
-            // - an object of a custom class that contains both information
+            //File Format: overall, revID, prodID, revName, vote
             final String[] coreAttributes = value.toString().split(",", -1);
-            System.out.println("STAMPA COREEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
-            System.out.println(coreAttributes.toString());
-            System.out.println("VALUEEEEE");
-            System.out.println(value.toString());
             final String revID = coreAttributes[1].trim();
             final String prodID = coreAttributes[2].trim();
             final String vote = coreAttributes[4].trim();
-            System.out.println("PRODID");
-            System.out.println(prodID);
 
+            //OUTPUT: (prodID, ("core", revID, vote))
             context.write(new Text(prodID), new TripleValue(new Text("core"), new Text(revID), new Text(vote)));
 
         }
@@ -98,8 +77,8 @@ public class MetaAndCoreJoinJob {
 
             String brand = "";
             List<String> coreDatasetRecords = new ArrayList<String>();
-            System.out.println("REDUCERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
 
+            //INPUT:
             //(prodID, (source, brand) SOLO UN'OCCORRENZA
             //(prodID, (source, revID, vote) PIU DI UNA
             for(TripleValue val : values) {
@@ -113,7 +92,6 @@ public class MetaAndCoreJoinJob {
             //OUTPUT: (prodID, (brand, revID, vote)
             for(String coreItem : coreDatasetRecords) {
                 String[] s= coreItem.split(",");
-                System.out.println("K: " + key.toString() + "  , V: " + brand + ", " + s[0] + ", " + s[1]);
                 context.write(key, new TripleValue(new Text(brand), new Text(s[0]), new Text(s[1])));
             }
         }

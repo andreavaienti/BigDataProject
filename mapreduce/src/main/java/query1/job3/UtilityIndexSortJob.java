@@ -18,7 +18,6 @@ public class UtilityIndexSortJob {
     public static class UtilityIndexSortMapper extends Mapper<
             LongWritable, Text,
             TextDoubleTuplaValue, Text> {
-            //TuplaValue<Text, DoubleWritable>, Text> {
 
         public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 
@@ -38,8 +37,6 @@ public class UtilityIndexSortJob {
      * Reducer
      */
     public static class UtilityIndexSortReducer extends Reducer<
-            //TuplaValue<Text, DoubleWritable>, Text,
-            //TuplaValue<Text, DoubleWritable>, Iterable<Text>> {
             TextDoubleTuplaValue, Text,
             TextDoubleTuplaValue, Text> {
 

@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="it.unibo.big.TestSpark" tests="3" skipped="0" failures="2" errors="0" timestamp="2022-01-18T20:47:15" hostname="DESKTOP-GFL0PUK" time="24.527">
+  <properties/>
+  <testcase name="Test$u0020spark$u0020context$u0020$minus$minus$minus$u0020word$u0020count()" classname="it.unibo.big.TestSpark" time="16.266">
+    <failure message="java.lang.IllegalArgumentException: Unsupported class file major version 57" type="java.lang.IllegalArgumentException">java.lang.IllegalArgumentException: Unsupported class file major version 57
+	at org.apache.xbean.asm6.ClassReader.&lt;init&gt;(ClassReader.java:166)
+	at org.apache.xbean.asm6.ClassReader.&lt;init&gt;(ClassReader.java:148)
+	at org.apache.xbean.asm6.ClassReader.&lt;init&gt;(ClassReader.java:136)
+	at org.apache.xbean.asm6.ClassReader.&lt;init&gt;(ClassReader.java:237)
+	at org.apache.spark.util.ClosureCleaner$.getClassReader(ClosureCleaner.scala:49)
+	at org.apache.spark.util.FieldAccessFinder$$anon$3$$anonfun$visitMethodInsn$2.apply(ClosureCleaner.scala:517)
+	at org.apache.spark.util.FieldAccessFinder$$anon$3$$anonfun$visitMethodInsn$2.apply(ClosureCleaner.scala:500)
+	at scala.collection.TraversableLike$WithFilter$$anonfun$foreach$1.apply(TraversableLike.scala:733)
+	at scala.collection.mutable.HashMap$$anon$1$$anonfun$foreach$2.apply(HashMap.scala:134)
+	at scala.collection.mutable.HashMap$$anon$1$$anonfun$foreach$2.apply(HashMap.scala:134)
+	at scala.collection.mutable.HashTable$class.foreachEntry(HashTable.scala:236)
+	at scala.collection.mutable.HashMap.foreachEntry(HashMap.scala:40)
+	at scala.collection.mutable.HashMap$$anon$1.foreach(HashMap.scala:134)
+	at scala.collection.TraversableLike$WithFilter.foreach(TraversableLike.scala:732)
+	at org.apache.spark.util.FieldAccessFinder$$anon$3.visitMethodInsn(ClosureCleaner.scala:500)
+	at org.apache.xbean.asm6.ClassReader.readCode(ClassReader.java:2175)
+	at org.apache.xbean.asm6.ClassReader.readMethod(ClassReader.java:1238)
+	at org.apache.xbean.asm6.ClassReader.accept(ClassReader.java:631)
+	at org.apache.xbean.asm6.ClassReader.accept(ClassReader.java:355)
+	at org.apache.spark.util.ClosureCleaner$$anonfun$org$apache$spark$util$ClosureCleaner$$clean$14.apply(ClosureCleaner.scala:307)
+	at org.apache.spark.util.ClosureCleaner$$anonfun$org$apache$spark$util$ClosureCleaner$$clean$14.apply(ClosureCleaner.scala:306)
+	at scala.collection.immutable.List.foreach(List.scala:392)
+	at org.apache.spark.util.ClosureCleaner$.org$apache$spark$util$ClosureCleaner$$clean(ClosureCleaner.scala:306)
+	at org.apache.spark.util.ClosureCleaner$.clean(ClosureCleaner.scala:162)
+	at org.apache.spark.SparkContext.clean(SparkContext.scala:2326)
+	at org.apache.spark.SparkContext.runJob(SparkContext.scala:2100)
+	at org.apache.spark.rdd.RDD$$anonfun$take$1.apply(RDD.scala:1364)
+	at org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:151)
+	at org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:112)
+	at org.apache.spark.rdd.RDD.withScope(RDD.scala:363)
+	at org.apache.spark.rdd.RDD.take(RDD.scala:1337)
+	at it.unibo.big.TestSpark.Test$u0020spark$u0020context$u0020$minus$minus$minus$u0020word$u0020count(TestSpark.scala:51)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:567)
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:515)
+	at org.junit.jupiter.engine.execution.ExecutableInvoker.invoke(ExecutableInvoker.java:115)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$6(TestMethodTestDescriptor.java:171)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:167)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:114)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:59)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:105)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1507)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:110)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1507)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:110)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:32)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:51)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:248)
+	at org.junit.platform.launcher.core.DefaultLauncher.lambda$execute$5(DefaultLauncher.java:211)
+	at org.junit.platform.launcher.core.DefaultLauncher.withInterceptedStreams(DefaultLauncher.java:226)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:199)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:132)
+	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.processAllTestClasses(JUnitPlatformTestClassProcessor.java:99)
+	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.access$000(JUnitPlatformTestClassProcessor.java:79)
+	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor.stop(JUnitPlatformTestClassProcessor.java:75)
+	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.stop(SuiteTestClassProcessor.java:61)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:567)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:33)
+	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:94)
+	at com.sun.proxy.$Proxy2.stop(Unknown Source)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.stop(TestWorker.java:133)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:567)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:182)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:164)
+	at org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:414)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:48)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:56)
+	at java.base/java.lang.Thread.run(Thread.java:830)
+</failure>
+  </testcase>
+  <testcase name="test()" classname="it.unibo.big.TestSpark" time="0.772"/>
+  <testcase name="Test$u0020hive$u0020context$u0020$minus$minus$minus$u0020table$u0020creation$u0020and$u0020summing$u0020of$u0020counts()" classname="it.unibo.big.TestSpark" time="7.485">
+    <failure message="java.lang.IllegalArgumentException: Unable to locate hive jars to connect to metastore. Please set spark.sql.hive.metastore.jars." type="java.lang.IllegalArgumentException">java.lang.IllegalArgumentException: Unable to locate hive jars to connect to metastore. Please set spark.sql.hive.metastore.jars.
+	at org.apache.spark.sql.hive.HiveUtils$.newClientForMetadata(HiveUtils.scala:324)
+	at org.apache.spark.sql.hive.HiveUtils$.newClientForMetadata(HiveUtils.scala:286)
+	at org.apache.spark.sql.hive.HiveExternalCatalog.client$lzycompute(HiveExternalCatalog.scala:66)
+	at org.apache.spark.sql.hive.HiveExternalCatalog.client(HiveExternalCatalog.scala:65)
+	at org.apache.spark.sql.hive.HiveExternalCatalog$$anonfun$databaseExists$1.apply$mcZ$sp(HiveExternalCatalog.scala:215)
+	at org.apache.spark.sql.hive.HiveExternalCatalog$$anonfun$databaseExists$1.apply(HiveExternalCatalog.scala:215)
+	at org.apache.spark.sql.hive.HiveExternalCatalog$$anonfun$databaseExists$1.apply(HiveExternalCatalog.scala:215)
+	at org.apache.spark.sql.hive.HiveExternalCatalog.withClient(HiveExternalCatalog.scala:97)
+	at org.apache.spark.sql.hive.HiveExternalCatalog.databaseExists(HiveExternalCatalog.scala:214)
+	at org.apache.spark.sql.internal.SharedState.externalCatalog$lzycompute(SharedState.scala:114)
+	at org.apache.spark.sql.internal.SharedState.externalCatalog(SharedState.scala:102)
+	at org.apache.spark.sql.hive.HiveSessionStateBuilder.org$apache$spark$sql$hive$HiveSessionStateBuilder$$externalCatalog(HiveSessionStateBuilder.scala:39)
+	at org.apache.spark.sql.hive.HiveSessionStateBuilder$$anonfun$1.apply(HiveSessionStateBuilder.scala:54)
+	at org.apache.spark.sql.hive.HiveSessionStateBuilder$$anonfun$1.apply(HiveSessionStateBuilder.scala:54)
+	at org.apache.spark.sql.catalyst.catalog.SessionCatalog.externalCatalog$lzycompute(SessionCatalog.scala:90)
+	at org.apache.spark.sql.catalyst.catalog.SessionCatalog.externalCatalog(SessionCatalog.scala:90)
+	at org.apache.spark.sql.catalyst.catalog.SessionCatalog.tableExists(SessionCatalog.scala:415)
+	at org.apache.spark.sql.execution.command.DropTableCommand.run(ddl.scala:194)
+	at org.apache.spark.sql.execution.command.ExecutedCommandExec.sideEffectResult$lzycompute(commands.scala:70)
+	at org.apache.spark.sql.execution.command.ExecutedCommandExec.sideEffectResult(commands.scala:68)
+	at org.apache.spark.sql.execution.command.ExecutedCommandExec.executeCollect(commands.scala:79)
+	at org.apache.spark.sql.Dataset$$anonfun$6.apply(Dataset.scala:195)
+	at org.apache.spark.sql.Dataset$$anonfun$6.apply(Dataset.scala:195)
+	at org.apache.spark.sql.Dataset$$anonfun$53.apply(Dataset.scala:3365)
+	at org.apache.spark.sql.execution.SQLExecution$$anonfun$withNewExecutionId$1.apply(SQLExecution.scala:78)
+	at org.apache.spark.sql.execution.SQLExecution$.withSQLConfPropagated(SQLExecution.scala:125)
+	at org.apache.spark.sql.execution.SQLExecution$.withNewExecutionId(SQLExecution.scala:73)
+	at org.apache.spark.sql.Dataset.withAction(Dataset.scala:3364)
+	at org.apache.spark.sql.Dataset.&lt;init&gt;(Dataset.scala:195)
+	at org.apache.spark.sql.Dataset$.ofRows(Dataset.scala:80)
+	at org.apache.spark.sql.SparkSession.sql(SparkSession.scala:642)
+	at org.apache.spark.sql.SQLContext.sql(SQLContext.scala:694)
+	at it.unibo.big.TestSpark.Test$u0020hive$u0020context$u0020$minus$minus$minus$u0020table$u0020creation$u0020and$u0020summing$u0020of$u0020counts(TestSpark.scala:67)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:567)
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:515)
+	at org.junit.jupiter.engine.execution.ExecutableInvoker.invoke(ExecutableInvoker.java:115)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$6(TestMethodTestDescriptor.java:171)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:167)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:114)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:59)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:105)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1507)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:110)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1507)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:38)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:110)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:72)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:71)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:32)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:51)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:248)
+	at org.junit.platform.launcher.core.DefaultLauncher.lambda$execute$5(DefaultLauncher.java:211)
+	at org.junit.platform.launcher.core.DefaultLauncher.withInterceptedStreams(DefaultLauncher.java:226)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:199)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:132)
+	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.processAllTestClasses(JUnitPlatformTestClassProcessor.java:99)
+	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor$CollectAllTestClassesExecutor.access$000(JUnitPlatformTestClassProcessor.java:79)
+	at org.gradle.api.internal.tasks.testing.junitplatform.JUnitPlatformTestClassProcessor.stop(JUnitPlatformTestClassProcessor.java:75)
+	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.stop(SuiteTestClassProcessor.java:61)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:567)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:33)
+	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:94)
+	at com.sun.proxy.$Proxy2.stop(Unknown Source)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.stop(TestWorker.java:133)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:567)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:182)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:164)
+	at org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:414)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:48)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:56)
+	at java.base/java.lang.Thread.run(Thread.java:830)
+</failure>
+  </testcase>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[log4j:WARN No appenders could be found for logger (org.apache.hadoop.util.Shell).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
+22/01/18 21:47:19 INFO SparkContext: Running Spark version 2.4.0
+22/01/18 21:47:21 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+22/01/18 21:47:21 INFO SparkContext: Submitted application: unit test
+22/01/18 21:47:22 INFO SecurityManager: Changing view acls to: andre
+22/01/18 21:47:22 INFO SecurityManager: Changing modify acls to: andre
+22/01/18 21:47:22 INFO SecurityManager: Changing view acls groups to: 
+22/01/18 21:47:22 INFO SecurityManager: Changing modify acls groups to: 
+22/01/18 21:47:22 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(andre); groups with view permissions: Set(); users  with modify permissions: Set(andre); groups with modify permissions: Set()
+22/01/18 21:47:27 INFO Utils: Successfully started service 'sparkDriver' on port 50962.
+22/01/18 21:47:27 INFO SparkEnv: Registering MapOutputTracker
+22/01/18 21:47:27 INFO SparkEnv: Registering BlockManagerMaster
+22/01/18 21:47:27 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+22/01/18 21:47:27 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+22/01/18 21:47:27 INFO DiskBlockManager: Created local directory at C:\Users\andre\AppData\Local\Temp\blockmgr-20a700e4-43b8-41ad-aeb7-e9399ec81bd1
+22/01/18 21:47:27 INFO MemoryStore: MemoryStore started with capacity 434.4 MB
+22/01/18 21:47:27 INFO SparkEnv: Registering OutputCommitCoordinator
+22/01/18 21:47:28 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+22/01/18 21:47:28 INFO SparkUI: Bound SparkUI to 0.0.0.0, and started at http://host.docker.internal:4040
+22/01/18 21:47:29 INFO Executor: Starting executor ID driver on host localhost
+22/01/18 21:47:29 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 50975.
+22/01/18 21:47:29 INFO NettyBlockTransferService: Server created on host.docker.internal:50975
+22/01/18 21:47:29 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+22/01/18 21:47:29 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, host.docker.internal, 50975, None)
+22/01/18 21:47:29 INFO BlockManagerMasterEndpoint: Registering block manager host.docker.internal:50975 with 434.4 MB RAM, BlockManagerId(driver, host.docker.internal, 50975, None)
+22/01/18 21:47:29 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, host.docker.internal, 50975, None)
+22/01/18 21:47:29 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, host.docker.internal, 50975, None)
+22/01/18 21:47:31 INFO SparkUI: Stopped Spark web UI at http://host.docker.internal:4040
+22/01/18 21:47:31 INFO MapOutputTrackerMasterEndpoint: MapOutputTrackerMasterEndpoint stopped!
+22/01/18 21:47:31 INFO MemoryStore: MemoryStore cleared
+22/01/18 21:47:31 INFO BlockManager: BlockManager stopped
+22/01/18 21:47:31 INFO BlockManagerMaster: BlockManagerMaster stopped
+22/01/18 21:47:31 INFO OutputCommitCoordinator$OutputCommitCoordinatorEndpoint: OutputCommitCoordinator stopped!
+22/01/18 21:47:31 INFO SparkContext: Successfully stopped SparkContext
+22/01/18 21:47:31 INFO SparkContext: Running Spark version 2.4.0
+22/01/18 21:47:31 INFO SparkContext: Submitted application: unit test
+22/01/18 21:47:31 INFO SecurityManager: Changing view acls to: andre
+22/01/18 21:47:31 INFO SecurityManager: Changing modify acls to: andre
+22/01/18 21:47:31 INFO SecurityManager: Changing view acls groups to: 
+22/01/18 21:47:31 INFO SecurityManager: Changing modify acls groups to: 
+22/01/18 21:47:31 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(andre); groups with view permissions: Set(); users  with modify permissions: Set(andre); groups with modify permissions: Set()
+22/01/18 21:47:32 INFO Utils: Successfully started service 'sparkDriver' on port 50984.
+22/01/18 21:47:32 INFO SparkEnv: Registering MapOutputTracker
+22/01/18 21:47:32 INFO SparkEnv: Registering BlockManagerMaster
+22/01/18 21:47:32 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+22/01/18 21:47:32 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+22/01/18 21:47:32 INFO DiskBlockManager: Created local directory at C:\Users\andre\AppData\Local\Temp\blockmgr-225e4a40-bb99-4d3d-8fb1-fb4c199523b9
+22/01/18 21:47:32 INFO MemoryStore: MemoryStore started with capacity 434.4 MB
+22/01/18 21:47:32 INFO SparkEnv: Registering OutputCommitCoordinator
+22/01/18 21:47:32 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+22/01/18 21:47:32 INFO SparkUI: Bound SparkUI to 0.0.0.0, and started at http://host.docker.internal:4040
+22/01/18 21:47:32 INFO Executor: Starting executor ID driver on host localhost
+22/01/18 21:47:32 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 50997.
+22/01/18 21:47:32 INFO NettyBlockTransferService: Server created on host.docker.internal:50997
+22/01/18 21:47:32 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+22/01/18 21:47:32 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, host.docker.internal, 50997, None)
+22/01/18 21:47:32 INFO BlockManagerMasterEndpoint: Registering block manager host.docker.internal:50997 with 434.4 MB RAM, BlockManagerId(driver, host.docker.internal, 50997, None)
+22/01/18 21:47:32 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, host.docker.internal, 50997, None)
+22/01/18 21:47:32 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, host.docker.internal, 50997, None)
+22/01/18 21:47:32 INFO SparkUI: Stopped Spark web UI at http://host.docker.internal:4040
+22/01/18 21:47:32 INFO MapOutputTrackerMasterEndpoint: MapOutputTrackerMasterEndpoint stopped!
+22/01/18 21:47:32 INFO MemoryStore: MemoryStore cleared
+22/01/18 21:47:32 INFO BlockManager: BlockManager stopped
+22/01/18 21:47:32 INFO BlockManagerMaster: BlockManagerMaster stopped
+22/01/18 21:47:32 INFO OutputCommitCoordinator$OutputCommitCoordinatorEndpoint: OutputCommitCoordinator stopped!
+22/01/18 21:47:32 INFO SparkContext: Successfully stopped SparkContext
+22/01/18 21:47:32 INFO SparkContext: Running Spark version 2.4.0
+22/01/18 21:47:32 INFO SparkContext: Submitted application: unit test
+22/01/18 21:47:32 INFO SecurityManager: Changing view acls to: andre
+22/01/18 21:47:32 INFO SecurityManager: Changing modify acls to: andre
+22/01/18 21:47:32 INFO SecurityManager: Changing view acls groups to: 
+22/01/18 21:47:32 INFO SecurityManager: Changing modify acls groups to: 
+22/01/18 21:47:32 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(andre); groups with view permissions: Set(); users  with modify permissions: Set(andre); groups with modify permissions: Set()
+22/01/18 21:47:32 INFO Utils: Successfully started service 'sparkDriver' on port 51006.
+22/01/18 21:47:32 INFO SparkEnv: Registering MapOutputTracker
+22/01/18 21:47:32 INFO SparkEnv: Registering BlockManagerMaster
+22/01/18 21:47:32 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+22/01/18 21:47:32 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+22/01/18 21:47:32 INFO DiskBlockManager: Created local directory at C:\Users\andre\AppData\Local\Temp\blockmgr-e3210873-303d-4201-ab69-e0266ea51e00
+22/01/18 21:47:32 INFO MemoryStore: MemoryStore started with capacity 434.4 MB
+22/01/18 21:47:32 INFO SparkEnv: Registering OutputCommitCoordinator
+22/01/18 21:47:32 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+22/01/18 21:47:32 INFO SparkUI: Bound SparkUI to 0.0.0.0, and started at http://host.docker.internal:4040
+22/01/18 21:47:32 INFO Executor: Starting executor ID driver on host localhost
+22/01/18 21:47:32 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 51019.
+22/01/18 21:47:32 INFO NettyBlockTransferService: Server created on host.docker.internal:51019
+22/01/18 21:47:32 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+22/01/18 21:47:32 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, host.docker.internal, 51019, None)
+22/01/18 21:47:32 INFO BlockManagerMasterEndpoint: Registering block manager host.docker.internal:51019 with 434.4 MB RAM, BlockManagerId(driver, host.docker.internal, 51019, None)
+22/01/18 21:47:32 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, host.docker.internal, 51019, None)
+22/01/18 21:47:32 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, host.docker.internal, 51019, None)
+22/01/18 21:47:33 INFO SharedState: Setting hive.metastore.warehouse.dir ('null') to the value of spark.sql.warehouse.dir ('file:/C:/Users/andre/Desktop/Unibo/Magistrale/Big%20Data/BigDataProject/spark/spark-warehouse').
+22/01/18 21:47:33 INFO SharedState: Warehouse path is 'file:/C:/Users/andre/Desktop/Unibo/Magistrale/Big%20Data/BigDataProject/spark/spark-warehouse'.
+22/01/18 21:47:34 INFO StateStoreCoordinatorRef: Registered StateStoreCoordinator endpoint
+22/01/18 21:47:39 INFO SparkUI: Stopped Spark web UI at http://host.docker.internal:4040
+22/01/18 21:47:39 INFO MapOutputTrackerMasterEndpoint: MapOutputTrackerMasterEndpoint stopped!
+22/01/18 21:47:40 INFO MemoryStore: MemoryStore cleared
+22/01/18 21:47:40 INFO BlockManager: BlockManager stopped
+22/01/18 21:47:40 INFO BlockManagerMaster: BlockManagerMaster stopped
+22/01/18 21:47:40 INFO OutputCommitCoordinator$OutputCommitCoordinatorEndpoint: OutputCommitCoordinator stopped!
+22/01/18 21:47:40 INFO SparkContext: Successfully stopped SparkContext
+]]></system-err>
+</testsuite>

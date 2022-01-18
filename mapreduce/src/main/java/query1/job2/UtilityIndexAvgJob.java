@@ -23,22 +23,17 @@ public class UtilityIndexAvgJob {
      */
     public static class UtilityIndexAvgMapper extends Mapper<
             LongWritable, Text,
-            //TuplaValue<Text, Text>, TuplaValue<IntWritable, IntWritable>> {
             TextTextTuplaValue, IntIntTuplaValue> {
 
         public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 
             //INPUT: (prodID, (brand, revID, vote)
             final String[] metaAttributes = value.toString().split(",", -1);
-            final String prodID = metaAttributes[0].trim();
             final String brand = metaAttributes[1].trim();
             final String revID = metaAttributes[2].trim();
             final String vote = metaAttributes[3].trim();
 
             //OUTPUT: ((brand, revID), (vote, 1))
-            System.out.println("MAPPER REDUCER22222222222222222222222222222222222222222222222");
-            System.out.println("K: {"+ brand + ", " + revID + "}, V: " + vote + ", 1");
-            //context.write(new TuplaValue<Text, Text>(new Text(brand), new Text(revID)), new TuplaValue<IntWritable, IntWritable>(new IntWritable(Integer.parseInt(vote)), new IntWritable(1)));
             context.write(new TextTextTuplaValue(new Text(brand), new Text(revID)), new IntIntTuplaValue(new IntWritable(Integer.parseInt(vote)), new IntWritable(1)));
 
         }
@@ -48,8 +43,6 @@ public class UtilityIndexAvgJob {
      * Combiner
      */
     public static class UtilityIndexAvgCombiner extends Reducer<
-            //TuplaValue<Text, Text>, TuplaValue<IntWritable, IntWritable>,
-            //TuplaValue<Text, Text>, TuplaValue<IntWritable, IntWritable>> {
             TextTextTuplaValue, IntIntTuplaValue,
             TextTextTuplaValue, IntIntTuplaValue> {
 
@@ -61,8 +54,7 @@ public class UtilityIndexAvgJob {
                 sumLocalVote += val.getLeft().get();
                 sumLocalCount += val.getRight().get();
             }
-            System.out.println("COMBINER REDUCER22222222222222222222222222222222222222222222222");
-            System.out.println("K: {"+ key.toString() + "}, V: " + sumLocalVote + "," + sumLocalCount);
+
             context.write(key, new IntIntTuplaValue(new IntWritable(sumLocalVote), new IntWritable(sumLocalCount)));
 
         }
@@ -73,8 +65,6 @@ public class UtilityIndexAvgJob {
      * Reducer
      */
     public static class UtilityIndexAvgReducer extends Reducer<
-            //TuplaValue<Text, Text>, TuplaValue<IntWritable, IntWritable>,
-            //TuplaValue<Text, Text>, DoubleWritable> {
             TextTextTuplaValue, IntIntTuplaValue,
             TextTextTuplaValue, DoubleWritable> {
 
@@ -87,14 +77,9 @@ public class UtilityIndexAvgJob {
                 sumCount += val.getRight().get();
             }
 
-            System.out.println("REDUCER22222222222222222222222222222222222222222222222");
-            //System.out.println("TotVote: " + sumVote);
-            //System.out.println("TotRev: " + sumCount);
-            System.out.println("K: " + key.toString() + "  , V: " + sumVote/sumCount);
             //OUTPUT: ((brand, revID), utilityIndex)
             context.write(key, new DoubleWritable(sumVote/sumCount));
 
         }
-
     }
 }

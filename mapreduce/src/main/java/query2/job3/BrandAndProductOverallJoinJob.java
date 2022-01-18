@@ -2,10 +2,12 @@ package query2.job3;
 
 import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import query1.job1.MetaAndCoreJoinJob;
+import utils.TextTextTuplaValue;
 import utils.TripleValue;
 import utils.TuplaValue;
 
@@ -19,14 +21,18 @@ public class BrandAndProductOverallJoinJob {
      * Mapper for Brand With 3 Or More Products
      */
     public static class BrandMapper extends Mapper<
-            Text, Text,
-            Text, TuplaValue<Text, Text>> {
+            LongWritable, Text,
+            Text, TextTextTuplaValue> {
 
-        public void map(Text key, Text value, Context context) throws IOException, InterruptedException {
+        public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 
-            //INPUT: ((brand), prodID)
+            //INPUT: (brand, prodID)
+            final String[] metaAttributes = value.toString().split(",", -1);
+            final String brand = metaAttributes[0].trim();
+            final String prodID = metaAttributes[1].trim();
+
             //OUTPUT: ((prodID), (source, brand))
-            context.write(value, new TuplaValue<Text, Text>(new Text("brand"), key));
+            context.write(new Text(prodID), new TextTextTuplaValue(new Text("brand"), new Text(brand)));
 
         }
 
@@ -36,15 +42,19 @@ public class BrandAndProductOverallJoinJob {
      * Mapper for Product Overall
      */
     public static class ProductOverallMapper extends Mapper<
-            Text, DoubleWritable,
-            Text, TuplaValue<Text, Text>>{
+            LongWritable, Text,
+            Text, TextTextTuplaValue>{
 
 
-        public void map(Text key, DoubleWritable value, Context context) throws IOException, InterruptedException {
+        public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 
             //INPUT: ((prodID), overall)
+            final String[] productOverallAttributes = value.toString().split(",", -1);
+            final String prodID = productOverallAttributes[0].trim();
+            final String overall = productOverallAttributes[1].trim();
+
             //OUTPUT: ((prodID), (source, overall))
-            context.write(key, new TuplaValue<Text, Text>(new Text("overall"), new Text(String.valueOf(value.get()))));
+            context.write(new Text(prodID), new TextTextTuplaValue(new Text("overall"), new Text(overall)));
 
         }
 
@@ -53,26 +63,30 @@ public class BrandAndProductOverallJoinJob {
     /**
      * Reducer
      */
-    public static class JobReducer extends Reducer<
-            Text, TuplaValue<Text, Text>,
-            Text, TuplaValue<Text, Text>> {
+    public static class JoinReducer extends Reducer<
+            Text, TextTextTuplaValue,
+            Text, TextTextTuplaValue> {
 
-        public void reduce(Text key, Iterable<TuplaValue<Text, Text>> values, Context context) throws IOException, InterruptedException {
+        public void reduce(Text key, Iterable<TextTextTuplaValue> values, Context context) throws IOException, InterruptedException {
 
-            Text brand = null;
-            Text overall = null;
+            String brand = "";
+            String overall = "";
 
             //(prodID, (source, brand) SOLO UN'OCCORRENZA
             //(prodID, (source, overall) SOLO UNA
-            for(TuplaValue<Text, Text> val : values) {
-                if(val.getLeft().toString() == "brand")
-                    brand = val.getRight();
+            for(TextTextTuplaValue val : values) {
+                System.out.println("JOIN REDUCEEEEEEEEEEEEEEEEEEEEEEEEEER");
+                System.out.println(val.toString());
+                if(val.getLeft().toString().equals("brand")) {
+                    System.out.println("ENTRATO");
+                    brand = val.getRight().toString();
+                }
                 else
-                    overall = val.getRight();
+                    overall = val.getRight().toString();
             }
 
             //OUTPUT: (prodID, (brand, overall))
-            context.write(key, new TuplaValue<Text, Text>(brand, overall));
+            context.write(key, new TextTextTuplaValue(new Text(brand), new Text(overall)));
         }
 
     }

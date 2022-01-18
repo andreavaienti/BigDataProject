@@ -1,3 +1,5 @@
+utils/TextIntTuplaValue.java
+ utils.TextIntTuplaValue
 query1/job3/UtilityIndexSortJob.java
  query1.job3.UtilityIndexSortJob
  query1.job3.UtilityIndexSortJob$UtilityIndexSortMapper
@@ -6,11 +8,15 @@ WordCount.java
  WordCount
  WordCount$IntSumReducer
  WordCount$TokenizerMapper
+query1/Query1MR.java
+ query1.Query1MR
 query1/job2/UtilityIndexAvgJob.java
  query1.job2.UtilityIndexAvgJob
  query1.job2.UtilityIndexAvgJob$UtilityIndexAvgCombiner
  query1.job2.UtilityIndexAvgJob$UtilityIndexAvgMapper
  query1.job2.UtilityIndexAvgJob$UtilityIndexAvgReducer
+query2/Query2MR.java
+ query2.Query2MR
 utils/IntIntTuplaValue.java
  utils.IntIntTuplaValue
 utils/TuplaValue.java
@@ -36,7 +42,7 @@ query2/job5/BrandOverallFindMaxJob.java
 query2/job3/BrandAndProductOverallJoinJob.java
  query2.job3.BrandAndProductOverallJoinJob
  query2.job3.BrandAndProductOverallJoinJob$BrandMapper
- query2.job3.BrandAndProductOverallJoinJob$JobReducer
+ query2.job3.BrandAndProductOverallJoinJob$JoinReducer
  query2.job3.BrandAndProductOverallJoinJob$ProductOverallMapper
 JoinJob.java
  join.JoinJob
@@ -53,7 +59,7 @@ utils/TextTextTuplaValue.java
 query2/job1/BrandWith3OrMoreProductFilterJob.java
  query2.job1.BrandWith3OrMoreProductFilterJob
  query2.job1.BrandWith3OrMoreProductFilterJob$Brand3ProductFilterMapper
- query2.job1.BrandWith3OrMoreProductFilterJob$UtilityIndexSortReducer
+ query2.job1.BrandWith3OrMoreProductFilterJob$Brand3ProductFilterReducer
 utils/TextDoubleTuplaValue.java
  utils.TextDoubleTuplaValue
 query2/job2/ProductOverallAvgJob.java
@@ -61,5 +67,3 @@ query2/job2/ProductOverallAvgJob.java
  query2.job2.ProductOverallAvgJob$ProductOverallAvgCombiner
  query2.job2.ProductOverallAvgJob$ProductOverallAvgMapper
  query2.job2.ProductOverallAvgJob$ProductOverallAvgReducer
-query1/QueryMR.java
- query1.QueryMR

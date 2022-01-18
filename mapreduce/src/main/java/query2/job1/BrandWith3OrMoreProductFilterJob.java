@@ -2,13 +2,17 @@ package query2.job1;
 
 import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
+import utils.TextIntTuplaValue;
 import utils.TripleValue;
 import utils.TuplaValue;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BrandWith3OrMoreProductFilterJob {
 
@@ -16,18 +20,18 @@ public class BrandWith3OrMoreProductFilterJob {
      * Mapper for job1
      */
     public static class Brand3ProductFilterMapper extends Mapper<
-            IntWritable, Text,
-            Text, TuplaValue<Text, IntWritable>> {
+            LongWritable, Text,
+            Text, TextIntTuplaValue> {
 
-        public void map(IntWritable key, Text value, Context context) throws IOException, InterruptedException {
-
-            final String[] metaAttributes = value.toString().split(",", -1);
-            final String brand = metaAttributes[0].trim();
-            final String prodID = metaAttributes[1].trim();
+        public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 
             //INPUT: Leggo file
+            final String[] metaAttributes = value.toString().split(",", -1);
+            final String brand = metaAttributes[0].trim() + ",";
+            final String prodID = metaAttributes[1].trim();
+
             //OUTPUT: ((brand), prodID, 1)
-            context.write(new Text(brand), new TuplaValue<Text, IntWritable>(new Text(prodID), new IntWritable(1)));
+            context.write(new Text(brand), new TextIntTuplaValue(new Text(prodID), new IntWritable(1)));
 
         }
 
@@ -36,23 +40,26 @@ public class BrandWith3OrMoreProductFilterJob {
     /**
      * Reducer
      */
-    public static class UtilityIndexSortReducer extends Reducer<
-            Text, TuplaValue<Text, IntWritable>,
+    public static class Brand3ProductFilterReducer extends Reducer<
+            Text, TextIntTuplaValue,
             Text, Text> {
 
-        public void reduce(Text key, Iterable<TuplaValue<Text, IntWritable>> values, Context context) throws IOException, InterruptedException {
+        public void reduce(Text key, Iterable<TextIntTuplaValue> values, Context context) throws IOException, InterruptedException {
 
             //INPUT: ((brand), prodID, 1)
             int brandProductCounter = 0;
+            List<Text> cache = new ArrayList<Text>();
 
-            for(TuplaValue<Text, IntWritable> val: values){
+            for(TextIntTuplaValue val: values){
+                cache.add(val.getLeft());
                 brandProductCounter += val.getRight().get();
             }
 
             //OUTPUT: ((brand), prodID)
-            if(brandProductCounter >= 3){
-                for(TuplaValue<Text, IntWritable> val: values){
-                    context.write(key, val.getLeft());
+            if(brandProductCounter >= 2){
+                for(Text val: cache){
+                    System.out.println("K: " + key.toString() + ", " +val.toString());
+                    context.write(key, val);
                 }
             }
 

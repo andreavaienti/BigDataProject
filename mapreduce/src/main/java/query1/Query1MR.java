@@ -6,7 +6,6 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.*;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
-import org.apache.hadoop.mapreduce.lib.input.KeyValueTextInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.MultipleInputs;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
@@ -20,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class QueryMR {
+public class Query1MR {
 
 	public static void main(final String[] args) throws Exception {
 
@@ -54,7 +53,7 @@ public class QueryMR {
 		 */
 		final Configuration conf1 = new Configuration();
 		final Job job1 = Job.getInstance(conf1, "Meta and Core Dataset Join");
-		job1.setJarByClass(QueryMR.class);
+		job1.setJarByClass(Query1MR.class);
 		job1.setNumReduceTasks(numReduceTasksForJobs.get(0));
 
 		job1.setMapperClass(MetaAndCoreJoinJob.MetaMapper.class);
@@ -81,7 +80,7 @@ public class QueryMR {
 		 */
 		final Configuration conf2 = new Configuration();
 		final Job job2 = Job.getInstance(conf2, "Utility Index Average Job");
-		job2.setJarByClass(QueryMR.class);
+		job2.setJarByClass(Query1MR.class);
 		job2.setNumReduceTasks(numReduceTasksForJobs.get(1));
 
 		job2.setMapperClass(UtilityIndexAvgJob.UtilityIndexAvgMapper.class);
@@ -105,7 +104,7 @@ public class QueryMR {
 		 */
 		final Configuration conf3 = new Configuration();
 		final Job job3 = Job.getInstance(conf3, "Utility Index Sort Job");
-		job3.setJarByClass(QueryMR.class);
+		job3.setJarByClass(Query1MR.class);
 		job3.setNumReduceTasks(numReduceTasksForJobs.get(2));
 
 		job3.setMapperClass(UtilityIndexSortJob.UtilityIndexSortMapper.class);

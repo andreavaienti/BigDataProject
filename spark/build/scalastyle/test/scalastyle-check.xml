@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="5.0">
+ <file name="C:\Users\andre\Desktop\Unibo\Magistrale\Big Data\BigDataProject\spark\src\test\scala\TestSpark.scala">
+  <error column="22" line="51" source="org.scalastyle.scalariform.MagicNumberChecker" severity="warning" message="Magic Number"/>
+  <error column="19" line="62" source="org.scalastyle.scalariform.MagicNumberChecker" severity="warning" message="Magic Number"/>
+  <error column="18" line="63" source="org.scalastyle.scalariform.MagicNumberChecker" severity="warning" message="Magic Number"/>
+  <error column="22" line="64" source="org.scalastyle.scalariform.MagicNumberChecker" severity="warning" message="Magic Number"/>
+  <error column="43" line="72" source="org.scalastyle.scalariform.MagicNumberChecker" severity="warning" message="Magic Number"/>
+  <error column="6" line="43" source="org.scalastyle.scalariform.MethodNamesChecker" severity="warning" message="Method name does not match the regular expression '^[a-z][A-Za-z0-9]*$'"/>
+  <error column="6" line="59" source="org.scalastyle.scalariform.MethodNamesChecker" severity="warning" message="Method name does not match the regular expression '^[a-z][A-Za-z0-9]*$'"/>
+ </file>
+</checkstyle>
