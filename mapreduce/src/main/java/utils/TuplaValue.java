@@ -1,33 +1,17 @@
 package utils;
 
 import org.apache.hadoop.io.*;
-
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 
 public class TuplaValue<L extends WritableComparable, R extends WritableComparable>
         implements WritableComparable<TuplaValue<L, R>> {
 
-    private L left;
-    private R right;
+    protected L left;
+    protected R right;
 
-    /*static <O, T> boolean isType(O o, T t){
-        return o instanceof T;
-    }*/
-
-    private boolean isTypeInt(L t){
-        return t instanceof Text;
-    }
-
-    public TuplaValue() {
-        //this.left = (L) new Writable();
-
-
-        this.left = new Writable();
-        this.right = (R) new Object();
-    }
+    public TuplaValue() { }
 
     public TuplaValue(L left, R right) {
         this.left = left;
@@ -72,9 +56,6 @@ public class TuplaValue<L extends WritableComparable, R extends WritableComparab
 
     @Override
     public String toString() {
-        return "TuplaValue{" +
-                "left=" + left +
-                ", right=" + right +
-                '}';
+        return  left + "," +  right + ",";
     }
 }

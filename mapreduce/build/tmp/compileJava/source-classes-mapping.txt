@@ -11,6 +11,8 @@ query1/job2/UtilityIndexAvgJob.java
  query1.job2.UtilityIndexAvgJob$UtilityIndexAvgCombiner
  query1.job2.UtilityIndexAvgJob$UtilityIndexAvgMapper
  query1.job2.UtilityIndexAvgJob$UtilityIndexAvgReducer
+utils/IntIntTuplaValue.java
+ utils.IntIntTuplaValue
 utils/TuplaValue.java
  utils.TuplaValue
 MultipleJobs.java
@@ -46,10 +48,14 @@ query1/job1/MetaAndCoreJoinJob.java
  query1.job1.MetaAndCoreJoinJob$CoreMapper
  query1.job1.MetaAndCoreJoinJob$JobReducer
  query1.job1.MetaAndCoreJoinJob$MetaMapper
+utils/TextTextTuplaValue.java
+ utils.TextTextTuplaValue
 query2/job1/BrandWith3OrMoreProductFilterJob.java
  query2.job1.BrandWith3OrMoreProductFilterJob
  query2.job1.BrandWith3OrMoreProductFilterJob$Brand3ProductFilterMapper
  query2.job1.BrandWith3OrMoreProductFilterJob$UtilityIndexSortReducer
+utils/TextDoubleTuplaValue.java
+ utils.TextDoubleTuplaValue
 query2/job2/ProductOverallAvgJob.java
  query2.job2.ProductOverallAvgJob
  query2.job2.ProductOverallAvgJob$ProductOverallAvgCombiner
