@@ -4,7 +4,7 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
-import utils.TextTextTuplaValue;
+import utils.tuplaValue.TextTextTuplaValue;
 
 import java.io.IOException;
 import java.util.ArrayList;

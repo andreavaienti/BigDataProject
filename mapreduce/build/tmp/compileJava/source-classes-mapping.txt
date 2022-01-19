@@ -46,6 +46,8 @@ query2/job3/BrandAndProductOverallJoinJob.java
  query2.job3.BrandAndProductOverallJoinJob$BrandMapper
  query2.job3.BrandAndProductOverallJoinJob$JoinReducer
  query2.job3.BrandAndProductOverallJoinJob$ProductOverallMapper
+utils/CoreRecordParser.java
+ utils.CoreRecordParser
 JoinJob.java
  join.JoinJob
  join.JoinJob$FirstMapper
@@ -58,6 +60,8 @@ query1/job1/MetaAndCoreJoinJob.java
  query1.job1.MetaAndCoreJoinJob$MetaMapper
 utils/TextTextTuplaValue.java
  utils.TextTextTuplaValue
+utils/MetaRecordParser.java
+ utils.MetaRecordParser
 query2/job1/BrandWith3OrMoreProductFilterJob.java
  query2.job1.BrandWith3OrMoreProductFilterJob
  query2.job1.BrandWith3OrMoreProductFilterJob$Brand3ProductFilterMapper

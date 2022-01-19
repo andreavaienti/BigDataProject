@@ -6,9 +6,8 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
-import utils.IntIntTuplaValue;
-import utils.TripleValue;
-import utils.TuplaValue;
+import utils.parser.CoreRecordParser;
+import utils.tuplaValue.IntIntTuplaValue;
 
 import java.io.IOException;
 
@@ -23,14 +22,15 @@ public class ProductOverallAvgJob {
 
         public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 
-            //INPUT: leggo dataset
-            final String[] coreAttributes = value.toString().split(",", -1);
-            final String prodID = coreAttributes[2].trim() + ",";
-            final String overall = coreAttributes[0].trim();
+            if(CoreRecordParser.areParsable(value.toString())) {
+                //INPUT: leggo dataset
+                final String[] coreAttributes = value.toString().split(",", -1);
+                final String prodID = coreAttributes[3].trim() + ",";
+                final String overall = coreAttributes[0].trim();
 
-            //OUTPUT: ((prodID), overall, 1)
-            context.write(new Text(prodID), new IntIntTuplaValue(new IntWritable(Integer.parseInt(overall)), new IntWritable(1)));
-
+                //OUTPUT: ((prodID), overall, 1)
+                context.write(new Text(prodID), new IntIntTuplaValue(new IntWritable(Integer.parseInt(overall)), new IntWritable(1)));
+            }
         }
     }
 

@@ -1,20 +1,22 @@
 package query2.job1;
 
-import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
-import utils.TextIntTuplaValue;
-import utils.TripleValue;
-import utils.TuplaValue;
+import utils.parser.MetaRecordParser;
+import utils.tuplaValue.TextIntTuplaValue;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * This MapReduce counts how many products each brand has.
+ * Then it performs a filter that only keeps the elements of the brands with at least 2 products.
+ */
 public class BrandWith3OrMoreProductFilterJob {
 
     /**
@@ -26,14 +28,15 @@ public class BrandWith3OrMoreProductFilterJob {
 
         public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 
-            //INPUT: Leggo file
-            final String[] metaAttributes = value.toString().split(",", -1);
-            final String brand = metaAttributes[0].trim() + ",";
-            final String prodID = metaAttributes[1].trim();
+            if(MetaRecordParser.areParsable(value.toString())) {
+                //File Format: brand, prodID
+                final String[] metaAttributes = value.toString().split(",", -1);
+                final String brand = metaAttributes[0].trim() + ",";
+                final String prodID = metaAttributes[1].trim();
 
-            //OUTPUT: ((brand), prodID, 1)
-            context.write(new Text(brand), new TextIntTuplaValue(new Text(prodID), new IntWritable(1)));
-
+                //OUTPUT: ((brand), prodID, 1)
+                context.write(new Text(brand), new TextIntTuplaValue(new Text(prodID), new IntWritable(1)));
+            }
         }
     }
 

@@ -6,15 +6,17 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
-import utils.IntIntTuplaValue;
-import utils.TextTextTuplaValue;
-import utils.TripleValue;
-import utils.TuplaValue;
+import utils.tuplaValue.IntIntTuplaValue;
+import utils.tuplaValue.TextTextTuplaValue;
 
 import java.io.IOException;
 
 /**
  * MapReduce job to evaluate the User Utility Index Average for each Brand.
+ * The User Utility Index is calculated as the ratio between:
+ *  - the number of total votes obtained for a brand
+ * and
+ *  - the number of total reviews made for that brand
  */
 public class UtilityIndexAvgJob {
 

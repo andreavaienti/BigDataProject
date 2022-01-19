@@ -5,11 +5,13 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
-import utils.TextDoubleTuplaValue;
-import utils.TuplaValue;
+import utils.tuplaValue.TextDoubleTuplaValue;
 
 import java.io.IOException;
 
+/**
+ * Sort for each brand the users with the highest utility index (in ascending order)
+ */
 public class UtilityIndexSortJob {
 
     /**

@@ -1,12 +1,12 @@
 package query1.job1;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
-import utils.TripleValue;
+import utils.parser.CoreRecordParser;
+import utils.parser.MetaRecordParser;
+import utils.tripleValue.TripleValue;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,17 +29,17 @@ public class MetaAndCoreJoinJob {
             // Mapper logic
             // Output has been formatted as (prodID, (source, brand))
             // where prodID is the sharedKey and the value first item is a string that specifies which is the source.
+            if(MetaRecordParser.areParsable(value.toString())){
+                //File Format: brand, prodID
+                final String[] metaAttributes = value.toString().split(",", -1);
+                final String brand = metaAttributes[0].trim();
+                final String prodID = metaAttributes[1].trim();
 
-            //File Format: brand, prodID
-            final String[] metaAttributes = value.toString().split(",", -1);
-            final String brand = metaAttributes[0].trim();
-            final String prodID = metaAttributes[1].trim();
-
-            //OUTPUT: (prodID, ("meta", brand))
-            //In this case, the class TripleValue is used without specifying the middle element.
-            //This will allow us to have the same class as input in the reducer.
-            context.write(new Text(prodID), new TripleValue(new Text("meta"), new Text(brand)));
-
+                //OUTPUT: (prodID, ("meta", brand))
+                //In this case, the class TripleValue is used without specifying the middle element.
+                //This will allow us to have the same class as input in the reducer.
+                context.write(new Text(prodID), new TripleValue(new Text("meta"), new Text(brand)));
+            }
         }
 
     }
@@ -57,14 +57,20 @@ public class MetaAndCoreJoinJob {
             // Output has been formatted as (prodID, (source, reviewerID, vote))
             // where prodID is the sharedKey and the value first item is a string that specifies which is the source.
 
-            //File Format: overall, revID, prodID, revName, vote
-            final String[] coreAttributes = value.toString().split(",", -1);
-            final String revID = coreAttributes[1].trim();
-            final String prodID = coreAttributes[2].trim();
-            final String vote = coreAttributes[4].trim();
+            if(CoreRecordParser.areParsable(value.toString())){
+                //File Format: overall, revID, prodID, revName, vote
+                final String[] coreAttributes = value.toString().split(",", -1);
+                final String revID = coreAttributes[2].trim();
+                final String prodID = coreAttributes[3].trim();
+                final String vote = coreAttributes[1].trim();
 
-            //OUTPUT: (prodID, ("core", revID, vote))
-            context.write(new Text(prodID), new TripleValue(new Text("core"), new Text(revID), new Text(vote)));
+                //OUTPUT: (prodID, ("core", revID, vote))
+                context.write(new Text(prodID), new TripleValue(new Text("core"), new Text(revID), new Text(vote)));
+            } else {
+                System.out.println("ELEMENTO DEL CORE NON PARSABILE");
+                System.out.println(value.toString());
+            }
+
 
         }
 

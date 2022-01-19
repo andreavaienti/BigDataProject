@@ -11,15 +11,12 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.MultipleInputs;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-import query1.Query1MR;
-import query1.job1.MetaAndCoreJoinJob;
-import query1.job2.UtilityIndexAvgJob;
 import query2.job1.BrandWith3OrMoreProductFilterJob;
 import query2.job2.ProductOverallAvgJob;
 import query2.job3.BrandAndProductOverallJoinJob;
 import query2.job4.BrandOverallAvgJob;
 import query2.job5.BrandOverallFindMaxJob;
-import utils.*;
+import utils.tuplaValue.*;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -44,8 +41,10 @@ public class Query2MR {
 
         final Path inputPath = new Path(args[0]);
         final Path outputPath = new Path(args[1]);
-        final Path fiveCoreDatasetPath = new Path(inputPath + File.separator + "5-core-sample.csv");
-        final Path metadataDatasetPath = new Path(inputPath + File.separator + "meta-sample.csv");
+        //final Path fiveCoreDatasetPath = new Path(inputPath + File.separator + "5-core-sample.csv");
+        //final Path metadataDatasetPath = new Path(inputPath + File.separator + "meta-sample.csv");
+        final Path fiveCoreDatasetPath = new Path(inputPath + File.separator + "core.csv");
+        final Path metadataDatasetPath = new Path(inputPath + File.separator + "brand.csv");
         final Path job1Result = new Path(outputPath + File.separator + "job1Result");
         final Path job2Result = new Path(outputPath + File.separator + "job2Result");
         final Path job3Result = new Path(outputPath + File.separator + "job3Result");
