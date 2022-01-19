@@ -30,8 +30,12 @@ object Exercise extends App {
   def query1(sc: SparkContext): Unit = {
     //val rddMeta = sc.textFile("hdfs:/bigdata/dataset/weather-sample").map(MetaData.extract)
     //val rddMeta = sc.textFile("/user/avaienti/dataset-sample/meta-sample.csv").map(x=> MetaData.extract(x))
-    val rddMeta = sc.textFile("/user/avaienti/dataset-sample/meta-sample.csv").filter(x => x.split(",").length == 2).map(x => MetaData.extract(x))
-    val rddCore = sc.textFile("/user/avaienti/dataset-sample/5-core-sample.csv").filter(x => x.split(",").length == 5).map(x => CoreData.extract(x))
+    val rddMeta = sc.textFile("/user/avaienti/dataset-sample/meta-sample.csv")
+      .filter(x => MetaData.metaParsable(x))
+      .map(x => MetaData.extract(x))
+    val rddCore = sc.textFile("/user/avaienti/dataset-sample/5-core-sample.csv")
+      .filter(x => CoreData.coreParsable(x))
+      .map(x => CoreData.extract(x))
     //val rddCore = sc.textFile("hdfs:/bigdata/dataset/weather-sample").map(CoreData.extract)
     val outputPathQuery1 = "/user/avaienti/project/spark/query1"
 
@@ -57,8 +61,12 @@ object Exercise extends App {
   }
 
   def query2(sc: SparkContext): Unit = {
-    val rddMeta = sc.textFile("/user/avaienti/dataset-sample/meta-sample.csv").filter(x => x.split(",").length == 2).map(x => MetaData.extract(x))
-    val rddCore = sc.textFile("/user/avaienti/dataset-sample/5-core-sample.csv").filter(x => x.split(",").length == 5).map(x => CoreData.extract(x))
+    val rddMeta = sc.textFile("/user/avaienti/dataset-sample/meta-sample.csv")
+      .filter(x => MetaData.metaParsable(x))
+      .map(x => MetaData.extract(x))
+    val rddCore = sc.textFile("/user/avaienti/dataset-sample/5-core-sample.csv")
+      .filter(x => CoreData.coreParsable(x))
+      .map(x => CoreData.extract(x))
     val outputPathQuery2 = "/user/avaienti/project/spark/query2"
 
     val rddProductOverall = rddCore
@@ -83,5 +91,7 @@ object Exercise extends App {
       //.saveAsTextFile(outputPathQuery2)
 
   }
+
+  def
 
 }
