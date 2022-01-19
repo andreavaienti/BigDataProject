@@ -12,6 +12,7 @@ import utils.TuplaValue;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class BrandWith3OrMoreProductFilterJob {
@@ -34,7 +35,6 @@ public class BrandWith3OrMoreProductFilterJob {
             context.write(new Text(brand), new TextIntTuplaValue(new Text(prodID), new IntWritable(1)));
 
         }
-
     }
 
     /**
@@ -48,22 +48,25 @@ public class BrandWith3OrMoreProductFilterJob {
 
             //INPUT: ((brand), prodID, 1)
             int brandProductCounter = 0;
-            List<Text> cache = new ArrayList<Text>();
+            List<String> cache = new ArrayList<String>();
 
             for(TextIntTuplaValue val: values){
-                cache.add(val.getLeft());
+                System.out.println(val.toString());
+                cache.add(val.getLeft().toString());
                 brandProductCounter += val.getRight().get();
             }
 
+            System.out.println("NUMERO DI ELEMENTI PER QUESTO BRAND: " + brandProductCounter);
+            System.out.println("PRODOTTI");
+            System.out.println(Arrays.toString(cache.toArray()));
+
             //OUTPUT: ((brand), prodID)
             if(brandProductCounter >= 2){
-                for(Text val: cache){
-                    System.out.println("K: " + key.toString() + ", " +val.toString());
-                    context.write(key, val);
+                for(String val: cache){
+                    System.out.println("K: " + key.toString() + ", " +val);
+                    context.write(key, new Text(val));
                 }
             }
-
         }
-
     }
 }

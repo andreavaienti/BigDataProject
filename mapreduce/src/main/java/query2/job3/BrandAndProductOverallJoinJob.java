@@ -1,15 +1,10 @@
 package query2.job3;
 
-import org.apache.hadoop.io.DoubleWritable;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
-import query1.job1.MetaAndCoreJoinJob;
 import utils.TextTextTuplaValue;
-import utils.TripleValue;
-import utils.TuplaValue;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -70,19 +65,23 @@ public class BrandAndProductOverallJoinJob {
         public void reduce(Text key, Iterable<TextTextTuplaValue> values, Context context) throws IOException, InterruptedException {
 
             String brand = "";
-            String overall = "";
+            String overall = "0.0";
+            List<String> joinRecords = new ArrayList<String>();
 
-            //(prodID, (source, brand) SOLO UN'OCCORRENZA
-            //(prodID, (source, overall) SOLO UNA
             for(TextTextTuplaValue val : values) {
                 System.out.println("JOIN REDUCEEEEEEEEEEEEEEEEEEEEEEEEEER");
                 System.out.println(val.toString());
                 if(val.getLeft().toString().equals("brand")) {
                     System.out.println("ENTRATO");
                     brand = val.getRight().toString();
+                } else {
+                    if(val.getRight().toString().isEmpty())
+                        overall = "0.0";
+                    else
+                        overall = val.getRight().toString();
                 }
-                else
-                    overall = val.getRight().toString();
+                System.out.println(brand);
+                System.out.println(overall);
             }
 
             //OUTPUT: (prodID, (brand, overall))
