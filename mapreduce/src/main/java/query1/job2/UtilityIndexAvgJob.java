@@ -48,6 +48,7 @@ public class UtilityIndexAvgJob {
 
         public void reduce(TextTextTuplaValue key, Iterable<IntIntTuplaValue> values, Context context) throws IOException, InterruptedException {
 
+            //INPUT: ((brand, revID), (vote, 1))
             int sumLocalVote = 0, sumLocalCount = 0;
 
             for(IntIntTuplaValue val: values){
@@ -55,6 +56,7 @@ public class UtilityIndexAvgJob {
                 sumLocalCount += val.getRight().get();
             }
 
+            //OUTPUT: ((brand, revID), (sumLocalVote, sumLocalCount))
             context.write(key, new IntIntTuplaValue(new IntWritable(sumLocalVote), new IntWritable(sumLocalCount)));
 
         }
@@ -70,6 +72,7 @@ public class UtilityIndexAvgJob {
 
         public void reduce(TextTextTuplaValue key, Iterable<IntIntTuplaValue> values, Context context) throws IOException, InterruptedException {
 
+            //INPUT: ((brand, revID), (sumLocalVote, sumLocalCount))
             double sumVote = 0.0, sumCount = 0.0;
 
             for(IntIntTuplaValue val: values){

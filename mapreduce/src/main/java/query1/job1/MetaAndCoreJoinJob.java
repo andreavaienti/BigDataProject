@@ -27,10 +27,8 @@ public class MetaAndCoreJoinJob {
         public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 
             // Mapper logic
-            // Output should be formatted as (joinKey, value), (prodID, "meta")
-            // where the value also specifies which is the source. It can be either:
-            // - a string formatted like "source-value" to be parsed by the reducer
-            // - an object of a custom class that contains both information
+            // Output has been formatted as (prodID, (source, brand))
+            // where prodID is the sharedKey and the value first item is a string that specifies which is the source.
 
             //File Format: brand, prodID
             final String[] metaAttributes = value.toString().split(",", -1);
@@ -38,6 +36,8 @@ public class MetaAndCoreJoinJob {
             final String prodID = metaAttributes[1].trim();
 
             //OUTPUT: (prodID, ("meta", brand))
+            //In this case, the class TripleValue is used without specifying the middle element.
+            //This will allow us to have the same class as input in the reducer.
             context.write(new Text(prodID), new TripleValue(new Text("meta"), new Text(brand)));
 
         }
@@ -52,6 +52,10 @@ public class MetaAndCoreJoinJob {
             Text, TripleValue>{
 
         public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
+
+            // Mapper logic
+            // Output has been formatted as (prodID, (source, reviewerID, vote))
+            // where prodID is the sharedKey and the value first item is a string that specifies which is the source.
 
             //File Format: overall, revID, prodID, revName, vote
             final String[] coreAttributes = value.toString().split(",", -1);
@@ -79,8 +83,9 @@ public class MetaAndCoreJoinJob {
             List<String> coreDatasetRecords = new ArrayList<String>();
 
             //INPUT:
-            //(prodID, (source, brand) SOLO UN'OCCORRENZA
-            //(prodID, (source, revID, vote) PIU DI UNA
+            //(prodID, (source, brand) -> only one record for the same prodID
+            //(prodID, (source, revID, vote) -> more record for the same ProdID
+            //Scorrendo tutti i valori associati a questa chiave abbiamo memorizzato il nome del brand e tutte le recensioni effettuate.
             for(TripleValue val : values) {
                 if(val.getLeft().toString().equals("core")) {
                     coreDatasetRecords.add(val.getCenter().toString() + "," + val.getRight().toString());
@@ -90,6 +95,7 @@ public class MetaAndCoreJoinJob {
             }
 
             //OUTPUT: (prodID, (brand, revID, vote)
+            //In questo loop avviene il vero e proprio join, in cui ad ogni prodotto vengono aggiunte le informazioni derivanti dai due dataset.
             for(String coreItem : coreDatasetRecords) {
                 String[] s= coreItem.split(",");
                 context.write(key, new TripleValue(new Text(brand), new Text(s[0]), new Text(s[1])));

@@ -42,6 +42,7 @@ public class UtilityIndexSortJob {
 
         public void reduce(TextDoubleTuplaValue key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
 
+            //INPUT: ((brand, utilityIndex), revID)
             String revIDs = "";
 
             for(Text val: values){

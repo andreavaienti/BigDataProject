@@ -23,7 +23,7 @@ public class Query1MR {
 
 	public static void main(final String[] args) throws Exception {
 
-		List<Integer> numReduceTasksForJobs = new ArrayList<Integer>(Arrays.asList(1, 1, 1, 1));
+		List<Integer> numReduceTasksForJobs = new ArrayList<Integer>(Arrays.asList(1, 1, 1));
 
 		if (args.length < 2) {
 			System.out.println("Parameters required: <input dir> <output dir> " +
@@ -65,10 +65,8 @@ public class Query1MR {
 		job1.setOutputKeyClass(Text.class);
 		job1.setOutputValueClass(TripleValue.class);
 
-		//job1.setMapperClass(MetaAndCoreJoinJob.class);
 		MultipleInputs.addInputPath(job1, metadataDatasetPath, TextInputFormat.class, MetaAndCoreJoinJob.MetaMapper.class);
 		MultipleInputs.addInputPath(job1, fiveCoreDatasetPath, TextInputFormat.class, MetaAndCoreJoinJob.CoreMapper.class);
-		//FileInputFormat.addInputPath(job1, metadataDatasetPath);
 		FileOutputFormat.setOutputPath(job1, job1Result);
 
 		if (!job1.waitForCompletion(true)) {
@@ -110,17 +108,13 @@ public class Query1MR {
 		job3.setMapperClass(UtilityIndexSortJob.UtilityIndexSortMapper.class);
 		job3.setReducerClass(UtilityIndexSortJob.UtilityIndexSortReducer.class);
 
-		//job3.setMapOutputKeyClass(TextDoubleTuplaValue.class);
-		//job3.setMapOutputValueClass(Text.class);
+		job3.setMapOutputKeyClass(TextDoubleTuplaValue.class);
+		job3.setMapOutputValueClass(Text.class);
 		job3.setOutputKeyClass(TextDoubleTuplaValue.class);
 		job3.setOutputValueClass(Text.class);
 
 		FileInputFormat.addInputPath(job3, job2Result);
 		FileOutputFormat.setOutputPath(job3, job3Result);
-
-		/*if (!job3.waitForCompletion(true)) {
-			System.exit(1);
-		}*/
 
 		System.exit(job3.waitForCompletion(true) ? 0 : 1);
 	}
