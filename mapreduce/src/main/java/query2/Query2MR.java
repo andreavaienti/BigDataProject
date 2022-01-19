@@ -4,6 +4,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.DoubleWritable;
+import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
@@ -16,10 +17,9 @@ import query1.job2.UtilityIndexAvgJob;
 import query2.job1.BrandWith3OrMoreProductFilterJob;
 import query2.job2.ProductOverallAvgJob;
 import query2.job3.BrandAndProductOverallJoinJob;
-import utils.IntIntTuplaValue;
-import utils.TextIntTuplaValue;
-import utils.TextTextTuplaValue;
-import utils.TripleValue;
+import query2.job4.BrandOverallAvgJob;
+import query2.job5.BrandOverallFindMaxJob;
+import utils.*;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class Query2MR {
 
     public static void main(final String[] args) throws Exception {
 
-        List<Integer> numReduceTasksForJobs = new ArrayList<Integer>(Arrays.asList(1, 1, 1, 1));
+        List<Integer> numReduceTasksForJobs = new ArrayList<Integer>(Arrays.asList(1, 1, 1, 1, 1));
 
         if (args.length < 2) {
             System.out.println("Parameters required: <input dir> <output dir> " +
@@ -49,6 +49,8 @@ public class Query2MR {
         final Path job1Result = new Path(outputPath + File.separator + "job1Result");
         final Path job2Result = new Path(outputPath + File.separator + "job2Result");
         final Path job3Result = new Path(outputPath + File.separator + "job3Result");
+        final Path job4Result = new Path(outputPath + File.separator + "job4Result");
+        final Path job5Result = new Path(outputPath + File.separator + "job5Result");
 
         final FileSystem fs = FileSystem.get(new Configuration());
         if (fs.exists(outputPath)) {
@@ -106,7 +108,7 @@ public class Query2MR {
          * Third job
          */
         final Configuration conf3 = new Configuration();
-        final Job job3 = Job.getInstance(conf1, "Brand And Product Overall Join");
+        final Job job3 = Job.getInstance(conf3, "Brand And Product Overall Join");
         job3.setJarByClass(Query2MR.class);
         job3.setNumReduceTasks(numReduceTasksForJobs.get(2));
 
@@ -126,5 +128,52 @@ public class Query2MR {
         if (!job3.waitForCompletion(true)) {
             System.exit(1);
         }
+
+        /*
+         * Fourth job
+         */
+        final Configuration conf4 = new Configuration();
+        final Job job4 = Job.getInstance(conf4, "Product Overall Average Job");
+        job4.setJarByClass(Query2MR.class);
+        job4.setNumReduceTasks(numReduceTasksForJobs.get(3));
+
+        job4.setMapperClass(BrandOverallAvgJob.BrandOverallAvgMapper.class);
+        job4.setCombinerClass(BrandOverallAvgJob.BrandOverallAvgCombiner.class);
+        job4.setReducerClass(BrandOverallAvgJob.BrandOverallAvgReducer.class);
+
+        job4.setMapOutputKeyClass(Text.class);
+        job4.setMapOutputValueClass(DoubleDoubleTuplaValue.class);
+        job4.setOutputKeyClass(Text.class);
+        job4.setOutputValueClass(DoubleWritable.class);
+
+        FileInputFormat.addInputPath(job4, job3Result);
+        FileOutputFormat.setOutputPath(job4, job4Result);
+
+        if (!job4.waitForCompletion(true)) {
+            System.exit(1);
+        }
+
+        /*
+         * Fifth job
+         */
+        final Configuration conf5 = new Configuration();
+        final Job job5 = Job.getInstance(conf5, "Find Max Brand Overall Job");
+        job5.setJarByClass(Query2MR.class);
+        job5.setNumReduceTasks(numReduceTasksForJobs.get(4));
+
+        job5.setMapperClass(BrandOverallFindMaxJob.BrandOverallMaxMapper.class);
+        job5.setCombinerClass(BrandOverallFindMaxJob.BrandOverallMaxCombiner.class);
+        job5.setReducerClass(BrandOverallFindMaxJob.BrandOverallMaxReducer.class);
+
+        job5.setMapOutputKeyClass(IntWritable.class);
+        job5.setMapOutputValueClass(TextDoubleTuplaValue.class);
+        job5.setOutputKeyClass(DoubleWritable.class);
+        job5.setOutputValueClass(Text.class);
+
+        FileInputFormat.addInputPath(job5, job4Result);
+        FileOutputFormat.setOutputPath(job5, job5Result);
+
+        System.exit(job5.waitForCompletion(true) ? 0 : 1);
+
     }
 }

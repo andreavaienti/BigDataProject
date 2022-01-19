@@ -34,6 +34,8 @@ query2/job4/BrandOverallAvgJob.java
  query2.job4.BrandOverallAvgJob$BrandOverallAvgReducer
 utils/TripleValue.java
  utils.TripleValue
+utils/DoubleDoubleTuplaValue.java
+ utils.DoubleDoubleTuplaValue
 query2/job5/BrandOverallFindMaxJob.java
  query2.job5.BrandOverallFindMaxJob
  query2.job5.BrandOverallFindMaxJob$BrandOverallMaxCombiner

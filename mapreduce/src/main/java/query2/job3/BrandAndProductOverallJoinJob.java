@@ -68,24 +68,27 @@ public class BrandAndProductOverallJoinJob {
             String overall = "0.0";
             List<String> joinRecords = new ArrayList<String>();
 
+            System.out.println("JOIN REDUCEEEEEEEEEEEEEEEEEEEEEEEEEER");
+
             for(TextTextTuplaValue val : values) {
-                System.out.println("JOIN REDUCEEEEEEEEEEEEEEEEEEEEEEEEEER");
-                System.out.println(val.toString());
+                System.out.println("K:" + key.toString() + " V:" + val.toString());
                 if(val.getLeft().toString().equals("brand")) {
-                    System.out.println("ENTRATO");
                     brand = val.getRight().toString();
                 } else {
-                    if(val.getRight().toString().isEmpty())
-                        overall = "0.0";
-                    else
-                        overall = val.getRight().toString();
+                    //if(!val.getRight().toString().isEmpty())
+                    overall = val.getRight().toString();
                 }
                 System.out.println(brand);
                 System.out.println(overall);
             }
+            System.out.println("TOTALE");
+            System.out.println(brand);
+            System.out.println(overall);
 
             //OUTPUT: (prodID, (brand, overall))
-            context.write(key, new TextTextTuplaValue(new Text(brand), new Text(overall)));
+            if(!overall.equals("0.0"))
+                context.write(new Text(key.toString() + ","), new TextTextTuplaValue(new Text(brand), new Text(overall)));
+
         }
 
     }
