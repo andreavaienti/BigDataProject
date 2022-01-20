@@ -34,9 +34,10 @@ public class UtilityIndexAvgJob {
             final String brand = metaAttributes[1].trim();
             final String revID = metaAttributes[2].trim();
             final String vote = metaAttributes[3].trim();
+            final int intVote = (int) Double.parseDouble(vote);
 
             //OUTPUT: ((brand, revID), (vote, 1))
-            context.write(new TextTextTuplaValue(new Text(brand), new Text(revID)), new IntIntTuplaValue(new IntWritable(Integer.parseInt(vote)), new IntWritable(1)));
+            context.write(new TextTextTuplaValue(new Text(brand), new Text(revID)), new IntIntTuplaValue(new IntWritable(intVote), new IntWritable(1)));
 
         }
     }

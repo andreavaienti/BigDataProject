@@ -59,6 +59,8 @@ public class MetaAndCoreJoinJob {
 
             if(CoreRecordParser.areParsable(value.toString())){
                 //File Format: overall, revID, prodID, revName, vote
+                System.out.println("PARSABILEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+                System.out.println(value.toString());
                 final String[] coreAttributes = value.toString().split(",", -1);
                 final String revID = coreAttributes[2].trim();
                 final String prodID = coreAttributes[3].trim();
