@@ -1,5 +1,6 @@
 package query2.job3;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
@@ -86,7 +87,7 @@ public class BrandAndProductOverallJoinJob {
             System.out.println(overall);
 
             //OUTPUT: (prodID, (brand, overall))
-            if(!overall.equals("0.0"))
+            if(!overall.equals("0.0") && NumberUtils.isNumber(overall) && !brand.isEmpty())
                 context.write(new Text(key.toString() + ","), new TextTextTuplaValue(new Text(brand), new Text(overall)));
 
         }

@@ -25,7 +25,7 @@ public class ProductOverallAvgJob {
             if(CoreRecordParser.areParsable(value.toString())) {
                 //INPUT: leggo dataset
                 final String[] coreAttributes = value.toString().split(",", -1);
-                final String prodID = coreAttributes[3].trim() + ",";
+                final String prodID = coreAttributes[2].trim() + ",";
                 final String overall = coreAttributes[0].trim();
 
                 //OUTPUT: ((prodID), overall, 1)

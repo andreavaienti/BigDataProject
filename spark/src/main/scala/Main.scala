@@ -1,5 +1,7 @@
+import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.SparkSession
+import org.apache.spark.HashPartitioner
 import utils.{CoreData, MetaData}
 
 // spark2-submit --class Exercise BD-302-spark-opt.jar <exerciseNumber>
@@ -7,7 +9,7 @@ import utils.{CoreData, MetaData}
 object Exercise extends App {
 
   override def main(args: Array[String]): Unit = {
-    val sc = getSparkContext()
+    val sc = SparkSession.builder.appName("BDE Spark Beshiri Vaienti").getOrCreate().sparkContext
 
     if(args.length >= 1){
       args(0) match {
@@ -17,81 +19,84 @@ object Exercise extends App {
     }
   }
 
-  /**
-   * Creates the SparkContent;
-   * @return
-   */
-  def getSparkContext(): SparkContext = {
-    // Spark 2
-    val spark = SparkSession.builder.appName("BDE Spark Beshiri Vaienti").getOrCreate()
-    spark.sparkContext
-  }
-
   def query1(sc: SparkContext): Unit = {
-    //val rddMeta = sc.textFile("hdfs:/bigdata/dataset/weather-sample").map(MetaData.extract)
-    //val rddMeta = sc.textFile("/user/avaienti/dataset-sample/meta-sample.csv").map(x=> MetaData.extract(x))
-    val rddMeta = sc.textFile("/user/avaienti/dataset-sample/meta-sample.csv")
+    val fs = FileSystem.get(sc.hadoopConfiguration)
+    fs.delete(new Path("/user/avaienti/project/spark/query1"), true)
+
+    val p = new HashPartitioner(8)
+
+    val outputPathQuery1 = "/user/avaienti/project/spark/query1"
+    val rddMeta = sc.textFile("/user/avaienti/dataset-sample/industry_meta.csv")
       .filter(x => MetaData.metaParsable(x))
       .map(x => MetaData.extract(x))
-    val rddCore = sc.textFile("/user/avaienti/dataset-sample/5-core-sample.csv")
+    val rddCore = sc.textFile("/user/avaienti/dataset-sample/industry_core.csv")
       .filter(x => CoreData.coreParsable(x))
       .map(x => CoreData.extract(x))
-    //val rddCore = sc.textFile("hdfs:/bigdata/dataset/weather-sample").map(CoreData.extract)
-    val outputPathQuery1 = "/user/avaienti/project/spark/query1"
 
-    val rddCoreMapped = rddCore.map(x => (x.prodID, (x.revID, x.vote)))
+    val rddCoreMapped = rddCore.map(x => (x.prodID, (x.revID, x.vote))).partitionBy(p)
 
     val rddJoin = rddMeta
-      .map(x => (x.prodID, x.brand))     //.partitionBy(p)
+      .map(x => (x.prodID, x.brand))
+      .partitionBy(p)
       .join(rddCoreMapped)
-
 
     val rddUtilityIndex = rddJoin
       .map({case (_, (brand, (revID, vote))) => ((brand, revID), vote)})
-      //acc = accumulator, inizializzato con il valore specificato (0.0,0.0)
-      //res1 e res2 sono i risultati parziali (quelli che in Hadoop si otterrebbero dopo la combine)
       .aggregateByKey((0.0,0.0))((acc,vote)=>(acc._1+vote,acc._2+1), (res1, res2)=>(res1._1+res2._1,res1._2+res2._2)).map({case(k,v)=>(k,v._1/v._2)})
+    //acc = accumulator, inizializzato con il valore specificato (0.0,0.0)
+    //res1 e res2 sono i risultati parziali (quelli che in Hadoop si otterrebbero dopo la combine)
 
     val rddUtilityIndexSorted = rddUtilityIndex
-      .map({case((brand, revID), utilityIndex) => (brand + ", " + BigDecimal(utilityIndex).setScale(2, BigDecimal.RoundingMode.HALF_UP).toDouble.toString, revID)})
+      .map({case((brand, revID), utilityIndex) => ((brand, BigDecimal(utilityIndex).setScale(2, BigDecimal.RoundingMode.HALF_UP).toDouble), revID)})
       .groupByKey()
-      .sortByKey(false)
+      .sortByKey()
       .saveAsTextFile(outputPathQuery1)
 
   }
 
   def query2(sc: SparkContext): Unit = {
-    val rddMeta = sc.textFile("/user/avaienti/dataset-sample/meta-sample.csv")
+    val fs = FileSystem.get(sc.hadoopConfiguration)
+    fs.delete(new Path("/user/avaienti/project/spark/query2"), true)
+
+    val p = new HashPartitioner(8)
+
+    val outputPathQuery2 = "/user/avaienti/project/spark/query2"
+    val rddMetaCached = sc.textFile("/user/avaienti/dataset-sample/industry_meta.csv")
       .filter(x => MetaData.metaParsable(x))
       .map(x => MetaData.extract(x))
-    val rddCore = sc.textFile("/user/avaienti/dataset-sample/5-core-sample.csv")
+      .map(x => (x.brand, x.prodID))
+      .cache()
+    val rddCore = sc.textFile("/user/avaienti/dataset-sample/industry_core.csv")
       .filter(x => CoreData.coreParsable(x))
       .map(x => CoreData.extract(x))
-    val outputPathQuery2 = "/user/avaienti/project/spark/query2"
 
     val rddProductOverall = rddCore
       .map(x => (x.prodID, x.overall))
       .aggregateByKey((0.0,0.0))((acc, overall)=>(acc._1+overall,acc._2+1), (res1, res2)=>(res1._1+res2._1,res1._2+res2._2)).map({case(k,v)=>(k,v._1/v._2)})
+      .partitionBy(p)
 
-    val rddBrandProducts = rddMeta.map(x => (x.brand, x.prodID)).countByKey() //BISOGNA CACHARE (FORSE non è lazy evaluation)
+    val broadcastRddBrandProducts = sc.broadcast(rddMetaCached.countByKey()) //VARIABILE CONDIVISA
 
-    val rddBrandWith3Products = rddMeta
-      .map(x => (x.brand, x.prodID))
-      .filter(x => rddBrandProducts(x._1) >= 2)
+    val rddBrandWith3Products = rddMetaCached
+      .filter(x => broadcastRddBrandProducts.value(x._1) >= 2)
 
     val rddJoin = rddBrandWith3Products
       .map({case(brand, prodID) => (prodID,brand)})
+      .partitionBy(p)
       .join(rddProductOverall)
       .map({case(_, (brand, overall)) => (brand, overall)})
-      .aggregateByKey((0.0,0.0))((acc, overall)=>(acc._1+overall,acc._2+1), (res1, res2)=>(res1._1+res2._1,res1._2+res2._2)).map({case(k,v)=>(k,v._1/v._2)})
-      .collect.maxBy(_._2)
-      //.reduceByKey((a,b)=>a+b).collect.maxBy(_._2)
-      //.max()
-      //.reduceByKey((x, y) => {if(x < y) y else x})
-      //.saveAsTextFile(outputPathQuery2)
+      .aggregateByKey((0.0,0.0))((acc, overall)=>(acc._1+overall,acc._2+1), (res1, res2)=>(res1._1+res2._1,res1._2+res2._2))
+      .map({case(k,v)=>(k, v._1/v._2)})
+      .cache()
+
+    val maxOverall = rddJoin.values.max
+
+    val rddBrandsWithHigherOverall = rddJoin
+      .filter{ case (_, v) => v == maxOverall }
+      .map({case(brand, overall) => (overall,brand)})
+      .groupByKey()
+      .saveAsTextFile(outputPathQuery2)
 
   }
-
-  def
 
 }

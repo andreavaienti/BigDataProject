@@ -62,9 +62,9 @@ public class MetaAndCoreJoinJob {
                 System.out.println("PARSABILEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
                 System.out.println(value.toString());
                 final String[] coreAttributes = value.toString().split(",", -1);
-                final String revID = coreAttributes[2].trim();
-                final String prodID = coreAttributes[3].trim();
-                final String vote = coreAttributes[1].trim();
+                final String revID = coreAttributes[1].trim();
+                final String prodID = coreAttributes[2].trim();
+                final String vote = coreAttributes[3].trim();
 
                 //OUTPUT: (prodID, ("core", revID, vote))
                 context.write(new Text(prodID), new TripleValue(new Text("core"), new Text(revID), new Text(vote)));
@@ -104,11 +104,12 @@ public class MetaAndCoreJoinJob {
 
             //OUTPUT: (prodID, (brand, revID, vote)
             //In questo loop avviene il vero e proprio join, in cui ad ogni prodotto vengono aggiunte le informazioni derivanti dai due dataset.
-            for(String coreItem : coreDatasetRecords) {
-                String[] s= coreItem.split(",");
-                context.write(key, new TripleValue(new Text(brand), new Text(s[0]), new Text(s[1])));
+            if(!brand.isEmpty()){
+                for(String coreItem : coreDatasetRecords) {
+                    String[] s= coreItem.split(",");
+                    context.write(key, new TripleValue(new Text(brand), new Text(s[0]), new Text(s[1])));
+                }
             }
         }
-
     }
 }

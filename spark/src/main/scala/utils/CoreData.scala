@@ -15,16 +15,16 @@ object CoreData {
     split.length == 4 &&
       split(0).length > 0 &&
       isAllDigits(split(0)) &&
-      split(1).length > 0 &&
-      isAllDigits(split(1)) &&
+      split(1).length > 0  &&
       split(2).length > 0 &&
-      split(3).length > 0
+      split(3).length > 0 &&
+      isAllDigits(split(3))
   }
 }
 
 case class CoreData(
    overall: Double,
-   vote: Double,
    revID: String,
-   prodID: String
+   prodID: String,
+   vote: Double
 )

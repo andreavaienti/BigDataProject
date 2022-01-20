@@ -40,10 +40,10 @@ public class Query1MR {
 
 		final Path inputPath = new Path(args[0]);
 		final Path outputPath = new Path(args[1]);
-		//final Path fiveCoreDatasetPath = new Path(inputPath + File.separator + "5-core-sample.csv");
+		//final Path coreDatasetPath = new Path(inputPath + File.separator + "5-core-sample.csv");
 		//final Path metadataDatasetPath = new Path(inputPath + File.separator + "meta-sample.csv");
-		final Path fiveCoreDatasetPath = new Path(inputPath + File.separator + "coreWithError.csv");
-		final Path metadataDatasetPath = new Path(inputPath + File.separator + "metaWithError.csv");
+		final Path coreDatasetPath = new Path(inputPath + File.separator + "industry_core.csv");
+		final Path metadataDatasetPath = new Path(inputPath + File.separator + "industry_meta.csv");
 		final Path job1Result = new Path(outputPath + File.separator + "job1Result");
 		final Path job2Result = new Path(outputPath + File.separator + "job2Result");
 		final Path job3Result = new Path(outputPath + File.separator + "job3Result");
@@ -71,7 +71,7 @@ public class Query1MR {
 		job1.setOutputValueClass(TripleValue.class);
 
 		MultipleInputs.addInputPath(job1, metadataDatasetPath, TextInputFormat.class, MetaAndCoreJoinJob.MetaMapper.class);
-		MultipleInputs.addInputPath(job1, fiveCoreDatasetPath, TextInputFormat.class, MetaAndCoreJoinJob.CoreMapper.class);
+		MultipleInputs.addInputPath(job1, coreDatasetPath, TextInputFormat.class, MetaAndCoreJoinJob.CoreMapper.class);
 		FileOutputFormat.setOutputPath(job1, job1Result);
 
 		if (!job1.waitForCompletion(true)) {
