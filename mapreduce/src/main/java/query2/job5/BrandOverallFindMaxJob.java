@@ -15,7 +15,7 @@ import java.util.Set;
 public class BrandOverallFindMaxJob {
 
     /**
-     * Mapper for job4
+     * Mapper for job5
      */
     public static class BrandOverallMaxMapper extends Mapper<
             LongWritable, Text,
@@ -68,7 +68,7 @@ public class BrandOverallFindMaxJob {
      */
     public static class BrandOverallMaxReducer extends Reducer<
             IntWritable, TextDoubleTuplaValue,
-            DoubleWritable, Text> {
+            Text, Text> {
 
         public void reduce(IntWritable key, Iterable<TextDoubleTuplaValue> values, Context context) throws IOException, InterruptedException {
 
@@ -95,10 +95,10 @@ public class BrandOverallFindMaxJob {
             System.out.println("BRAND CON OVERALL MASSIMO");
             for(String brand: maxBrands) {
                 System.out.println(brand);
-                maxBrandsFileFormat = maxBrandsFileFormat.concat(brand + "-");
+                maxBrandsFileFormat = maxBrandsFileFormat.concat(brand + ",");
             }
 
-            context.write(new DoubleWritable(maxValue), new Text(maxBrandsFileFormat.substring(0, maxBrandsFileFormat.length() - 1)));
+            context.write(new Text(maxValue + ","), new Text(maxBrandsFileFormat.substring(0, maxBrandsFileFormat.length() - 1)));
 
         }
 

@@ -1,15 +1,10 @@
 package it.unibo.big
 
-import org.apache.spark.SparkContext
-import org.apache.spark.serializer.KryoSerializer
-import org.apache.spark.sql.{Row, SQLContext, SparkSession}
-import org.junit.jupiter.api.{AfterEach, BeforeEach, Test}
-
-import scala.collection.mutable
+import org.junit.jupiter.api.Test
 
 class TestSpark {
 
-  @transient var sc: SparkContext = _
+  /*@transient var sc: SparkContext = _
   @transient var hiveContext: SQLContext = _
 
   @BeforeEach
@@ -71,5 +66,5 @@ class TestSpark {
     val ageSumDataFrame = hiveContext.sql("select sum(age) from tempPerson")
     val localAgeSum = ageSumDataFrame.take(10)
     assert(localAgeSum(0).get(0) == 62, "The sum of age should equal 62 but it equaled " + localAgeSum(0).get(0))
-  }
+  }*/
 }

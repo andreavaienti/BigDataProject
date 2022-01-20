@@ -41,10 +41,10 @@ public class Query2MR {
 
         final Path inputPath = new Path(args[0]);
         final Path outputPath = new Path(args[1]);
-        //final Path fiveCoreDatasetPath = new Path(inputPath + File.separator + "5-core-sample.csv");
+        //final Path coreDatasetPath = new Path(inputPath + File.separator + "5-core-sample.csv");
         //final Path metadataDatasetPath = new Path(inputPath + File.separator + "meta-sample.csv");
-        final Path fiveCoreDatasetPath = new Path(inputPath + File.separator + "core.csv");
-        final Path metadataDatasetPath = new Path(inputPath + File.separator + "brand.csv");
+        final Path coreDatasetPath = new Path(inputPath + File.separator + "industry_core.csv");
+        final Path metadataDatasetPath = new Path(inputPath + File.separator + "industry_meta.csv");
         final Path job1Result = new Path(outputPath + File.separator + "job1Result");
         final Path job2Result = new Path(outputPath + File.separator + "job2Result");
         final Path job3Result = new Path(outputPath + File.separator + "job3Result");
@@ -96,7 +96,7 @@ public class Query2MR {
         job2.setOutputKeyClass(Text.class);
         job2.setOutputValueClass(DoubleWritable.class);
 
-        FileInputFormat.addInputPath(job2, fiveCoreDatasetPath);
+        FileInputFormat.addInputPath(job2, coreDatasetPath);
         FileOutputFormat.setOutputPath(job2, job2Result);
 
         if (!job2.waitForCompletion(true)) {
@@ -166,7 +166,7 @@ public class Query2MR {
 
         job5.setMapOutputKeyClass(IntWritable.class);
         job5.setMapOutputValueClass(TextDoubleTuplaValue.class);
-        job5.setOutputKeyClass(DoubleWritable.class);
+        job5.setOutputKeyClass(Text.class);
         job5.setOutputValueClass(Text.class);
 
         FileInputFormat.addInputPath(job5, job4Result);
