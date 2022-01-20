@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<checkstyle version="5.0">
- <file name="C:\Users\andre\Desktop\Unibo\Magistrale\Big Data\BigDataProject\spark\src\test\scala\TestSpark.scala">
-  <error column="6" line="5" source="org.scalastyle.scalariform.EmptyClassChecker" severity="warning" message="Redundant braces after class definition"/>
- </file>
-</checkstyle>

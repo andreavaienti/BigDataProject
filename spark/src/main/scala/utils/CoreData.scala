@@ -28,3 +28,4 @@ case class CoreData(
    prodID: String,
    vote: Double
 )
+

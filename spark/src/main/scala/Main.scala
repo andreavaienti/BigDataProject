@@ -20,6 +20,7 @@ object Exercise extends App {
   }
 
   def query1(sc: SparkContext): Unit = {
+
     val fs = FileSystem.get(sc.hadoopConfiguration)
     fs.delete(new Path("/user/avaienti/project/spark/query1"), true)
 
@@ -55,6 +56,7 @@ object Exercise extends App {
   }
 
   def query2(sc: SparkContext): Unit = {
+
     val fs = FileSystem.get(sc.hadoopConfiguration)
     fs.delete(new Path("/user/avaienti/project/spark/query2"), true)
 
