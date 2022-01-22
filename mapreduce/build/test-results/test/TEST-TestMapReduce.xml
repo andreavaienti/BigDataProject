@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="TestMapReduce" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-01-20T10:32:16" hostname="DESKTOP-GFL0PUK" time="1.022">
+<testsuite name="TestMapReduce" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-01-22T16:04:50" hostname="DESKTOP-GFL0PUK" time="1.696">
   <properties/>
-  <testcase name="testSumReducer()" classname="TestMapReduce" time="0.859"/>
-  <testcase name="testWordCount()" classname="TestMapReduce" time="0.12"/>
-  <testcase name="mapperBreakesTheRecord()" classname="TestMapReduce" time="0.039"/>
+  <testcase name="testSumReducer()" classname="TestMapReduce" time="1.49"/>
+  <testcase name="testWordCount()" classname="TestMapReduce" time="0.14"/>
+  <testcase name="mapperBreakesTheRecord()" classname="TestMapReduce" time="0.06"/>
   <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[22/01/20 11:32:17 ERROR util.Shell: Failed to locate the winutils binary in the hadoop binary path
+  <system-err><![CDATA[22/01/22 17:04:50 ERROR util.Shell: Failed to locate the winutils binary in the hadoop binary path
 java.io.IOException: Could not locate executable null\bin\winutils.exe in the Hadoop binaries.
 	at org.apache.hadoop.util.Shell.getQualifiedBinPath(Shell.java:407)
 	at org.apache.hadoop.util.Shell.getWinUtilsPath(Shell.java:422)

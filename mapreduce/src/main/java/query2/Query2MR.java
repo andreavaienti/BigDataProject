@@ -43,8 +43,8 @@ public class Query2MR {
         final Path outputPath = new Path(args[1]);
         //final Path coreDatasetPath = new Path(inputPath + File.separator + "5-core-sample.csv");
         //final Path metadataDatasetPath = new Path(inputPath + File.separator + "meta-sample.csv");
-        final Path coreDatasetPath = new Path(inputPath + File.separator + "industry_core.csv");
-        final Path metadataDatasetPath = new Path(inputPath + File.separator + "industry_meta.csv");
+        final Path coreDatasetPath = new Path(inputPath + File.separator + "core.csv");
+        final Path metadataDatasetPath = new Path(inputPath + File.separator + "meta.csv");
         final Path job1Result = new Path(outputPath + File.separator + "job1Result");
         final Path job2Result = new Path(outputPath + File.separator + "job2Result");
         final Path job3Result = new Path(outputPath + File.separator + "job3Result");

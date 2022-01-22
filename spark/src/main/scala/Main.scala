@@ -12,25 +12,29 @@ object Exercise extends App {
     val sc = SparkSession.builder.appName("BDE Spark Beshiri Vaienti").getOrCreate().sparkContext
 
     if(args.length >= 1){
-      args(0) match {
-        case "1" => query1(sc)
-        case "2" => query2(sc)
+      (args(0), args(1)) match {
+        case ("1", "andrea") => query1(sc, "avaienti")
+        case ("1", "rei") => query1(sc, "brei")
+        case ("2", "andrea") => query2(sc, "avaienti")
+        case ("2", "rei") => query2(sc, "brei")
+        case _ => System.out.println("PARAMETRI ERRATI")
       }
     }
   }
 
-  def query1(sc: SparkContext): Unit = {
-
-    val fs = FileSystem.get(sc.hadoopConfiguration)
-    fs.delete(new Path("/user/avaienti/project/spark/query1"), true)
+  def query1(sc: SparkContext, user: String): Unit = {
 
     val p = new HashPartitioner(8)
 
-    val outputPathQuery1 = "/user/avaienti/project/spark/query1"
-    val rddMeta = sc.textFile("/user/avaienti/dataset-sample/industry_meta.csv")
+    val fs = FileSystem.get(sc.hadoopConfiguration)
+    fs.delete(new Path("/user/"+user+"/project/spark/query1"), true)
+
+    val outputPathQuery1 = "/user/"+user+"/project/spark/query1"
+
+    val rddMeta = sc.textFile("/user/avaienti/dataset/meta.csv")
       .filter(x => MetaData.metaParsable(x))
       .map(x => MetaData.extract(x))
-    val rddCore = sc.textFile("/user/avaienti/dataset-sample/industry_core.csv")
+    val rddCore = sc.textFile("/user/avaienti/dataset/core.csv")
       .filter(x => CoreData.coreParsable(x))
       .map(x => CoreData.extract(x))
 
@@ -55,20 +59,21 @@ object Exercise extends App {
 
   }
 
-  def query2(sc: SparkContext): Unit = {
+  def query2(sc: SparkContext, user: String): Unit = {
 
     val fs = FileSystem.get(sc.hadoopConfiguration)
-    fs.delete(new Path("/user/avaienti/project/spark/query2"), true)
+    fs.delete(new Path("/user/"+user+"/project/spark/query2"), true)
 
     val p = new HashPartitioner(8)
 
-    val outputPathQuery2 = "/user/avaienti/project/spark/query2"
-    val rddMetaCached = sc.textFile("/user/avaienti/dataset-sample/industry_meta.csv")
+    val outputPathQuery2 = "/user/"+user+"/project/spark/query2"
+
+    val rddMetaCached = sc.textFile("/user/avaienti/dataset/meta.csv")
       .filter(x => MetaData.metaParsable(x))
       .map(x => MetaData.extract(x))
       .map(x => (x.brand, x.prodID))
       .cache()
-    val rddCore = sc.textFile("/user/avaienti/dataset-sample/industry_core.csv")
+    val rddCore = sc.textFile("/user/avaienti/dataset/core.csv")
       .filter(x => CoreData.coreParsable(x))
       .map(x => CoreData.extract(x))
 
