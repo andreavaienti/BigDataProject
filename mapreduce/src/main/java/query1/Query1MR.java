@@ -34,9 +34,8 @@ public class Query1MR {
 			System.exit(-1);
 		}
 
-		System.out.println(args.length);
 		for(int i = 2; i < args.length; i++){
-			System.out.println(i);
+			System.out.println("Reducer Job" + (i-1) + ": " + Integer.parseInt(args[i]));
 			numReduceTasksForJobs.set(i-2, Integer.parseInt(args[i]));
 		}
 

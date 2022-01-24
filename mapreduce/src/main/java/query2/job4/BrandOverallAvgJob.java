@@ -25,7 +25,6 @@ public class BrandOverallAvgJob {
             final String brand = joinAttributes[1].trim();
             final String overall = joinAttributes[2].trim();
 
-            //INPUT: (prodID, (brand, overall))
             //OUTPUT: (brand, overall, 1)
             context.write(new Text(brand), new DoubleDoubleTuplaValue(new DoubleWritable(Double.parseDouble(overall)), new DoubleWritable(1)));
 
@@ -73,7 +72,7 @@ public class BrandOverallAvgJob {
             }
             System.out.println("RISULTATO TOTALE");
             System.out.println("K:" + key.toString() + " V:" + sumTotalOverall/sumTotalItem);
-            //OUTPUT: ((prodID), overall)
+            //OUTPUT: (brand, overall)
             context.write(new Text(key.toString() + ","),new DoubleWritable(sumTotalOverall/sumTotalItem));
 
         }
